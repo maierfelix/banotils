@@ -3,7 +3,7 @@
 This repository contains several utils to work with the cryptocurrency [Banano](https://banano.cc/) inside the browser.
 
 ### Demo:
- - [Browser Wallet](https://maierfelix.github.io/banotils/example)
+ - [Browser Wallet](https://maierfelix.github.io/banotils/example/index.html)
 
 ### Documentation:
 The documentation is auto-generated and can be found [here](https://maierfelix.github.io/banotils/docs).
