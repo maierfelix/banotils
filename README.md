@@ -8,6 +8,11 @@ This repository contains several utils to work with the cryptocurrency [Banano](
 ### Documentation:
 The documentation is auto-generated and can be found [here](https://maierfelix.github.io/banotils/docs).
 
+### Installation:
+````
+npm install banotils
+````
+
 ### Features:
  - RPC-based requests
  - Wallet generation (Seed, Private and Public keys)

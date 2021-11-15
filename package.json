@@ -33,5 +33,18 @@
   "license": "MIT",
   "dependencies": {
     "blakejs": "^1.1.1"
-  }
+  },
+  "description": "This repository contains several utils to work with the cryptocurrency [Banano](https://banano.cc/) inside the browser.",
+  "directories": {
+    "doc": "docs",
+    "example": "example"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maierfelix/banotils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/maierfelix/banotils/issues"
+  },
+  "homepage": "https://github.com/maierfelix/banotils#readme"
 }
