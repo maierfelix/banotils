@@ -1,6 +1,7 @@
 import clear from "rollup-plugin-clear";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
+import glslify from "rollup-plugin-glslify";
 import typescript from "rollup-plugin-typescript2";
 import {terser} from "rollup-plugin-terser";
 
@@ -27,6 +28,10 @@ export default {
   plugins: [
     clear({
       targets: ["dist"]
+    }),
+    glslify({
+      compress: true,
+      exclude: "node_modules/**",
     }),
     typescript({
       rollupCommonJSResolveHack: true,
