@@ -1,8 +1,8 @@
-import json from "@rollup/plugin-json";
 import clear from "rollup-plugin-clear";
-import esbuild from "rollup-plugin-esbuild";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
+import typescript from "rollup-plugin-typescript2";
+import {terser} from "rollup-plugin-terser";
 
 export default {
   input: "src/index.ts",
@@ -10,24 +10,35 @@ export default {
   output: [
     {
       name: "banotils",
-      dir: "dist",
+      file: "dist/index.esm.js",
+      format: "esm",
+    },
+    {
+      name: "banotils",
+      file: "dist/index.js",
+      format: "cjs",
+    },
+    {
+      name: "banotils",
+      file: "dist/index.iife.js",
       format: "iife",
-      globals: {"crypto": "crypto"},
     }
   ],
   plugins: [
     clear({
       targets: ["dist"]
     }),
-    resolve(),
-    json(),
-    esbuild({
-      minify: true,
-      sourceMap: false,
+    typescript({
+      rollupCommonJSResolveHack: true,
+      clean: true,
+      tsconfig: "./tsconfig.json",
+      module: "esnext"
     }),
+    resolve(),
     commonjs({
       sourceMap: false,
       include: "./node_modules/**"
     }),
+    terser(),
   ]
 };

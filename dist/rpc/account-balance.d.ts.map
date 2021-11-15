@@ -1,0 +1,1 @@
+{"version":3,"file":"account-balance.d.ts","sourceRoot":"","sources":["../../src/rpc/account-balance.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,WAAW,uBAAuB;IACtC;;OAEG;IACH,OAAO,EAAE,MAAM,CAAC;IAChB;;OAEG;IACH,OAAO,EAAE,MAAM,CAAC;CACjB;AAED;;;GAGG;AACH,wBAAgB,2BAA2B,CAAC,IAAI,EAAE,GAAG,GAAG,uBAAuB,CAU9E"}

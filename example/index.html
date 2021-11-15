@@ -44,9 +44,9 @@
 <button id="wallet-withdraw">Withdraw</button>
 <br/><br/>
 
-<script src="../dist/index.js"></script>
+<script src="../dist/index.iife.js"></script>
 
-<script>
+<script type="module">
 const ban = banotils;
 function $(query) { return document.querySelector(query); }
 
@@ -132,15 +132,10 @@ async function onWithdrawWallet() {
   const srcPrivateKey = ban.getPrivateKey(ban.hexToBytes(walletSeed));
   const dstPublicKey = ban.getPublicKey(withdrawalAddress);
 
-  const result = await ban.sendAccount(srcPrivateKey, dstPublicKey, withdrawalAmountRaw,
-    async (hash) => { console.log(`Successfully withdrawn '${withdrawalAmount}' BAN`); },
-    async (error) => { console.error(`Failed to withdraw BAN:`, error); }
-  );
+  const result = await ban.sendAccount(srcPrivateKey, dstPublicKey, withdrawalAmountRaw);
 };
 
 (async() => {
-
-  //await ban.setBananodeApiUrl(`https://kaliumapi.appditto.com/api`);
 
   $(`#generate-wallet`).onclick = async() => {
     await onGenerateWallet();
