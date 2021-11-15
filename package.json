@@ -1,0 +1,35 @@
+{
+  "name": "banotils",
+  "version": "0.0.1",
+  "scripts": {
+    "docs": "typedoc src/index.ts",
+    "build": "rollup -c",
+    "watch": "rollup -cw",
+    "http": "serve ./ -p 98"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@rollup/plugin-url": "^6.1.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
+    "esbuild": "^0.12.25",
+    "eslint": "^7.32.0",
+    "eslint-plugin-tsdoc": "^0.2.14",
+    "rollup": "^2.56.3",
+    "rollup-plugin-clear": "^2.0.7",
+    "rollup-plugin-esbuild": "^4.5.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "serve": "^13.0.2",
+    "tslib": "^2.3.0",
+    "typedoc": "^0.21.2",
+    "typescript": "^4.3.5"
+  },
+  "keywords": [],
+  "author": "Felix Maier",
+  "license": "MIT",
+  "dependencies": {
+    "blakejs": "^1.1.1"
+  }
+}

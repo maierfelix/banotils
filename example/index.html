@@ -1,0 +1,176 @@
+<title>Banano Wallet</title>
+
+<h1>Wallet:</h1>
+
+<button id="generate-wallet">Generate Wallet</button>
+<br/><br/>
+<button id="import-wallet">Import Wallet Seed</button>
+<input id="import-wallet-seed" type="text" size="66" max="64">
+<h3>Seed:</h3>
+<div id="wallet-seed"></div>
+<h3>Public key:</h3>
+<div id="wallet-public-key"></div>
+<h3>Private key:</h3>
+<div id="wallet-private-key"></div>
+
+<hr>
+
+<h1>General:</h1>
+<h3>Address:</h3>
+<div id="wallet-address"></div>
+<h3>Balance:</h3>
+<div id="wallet-balance"></div>
+<h3>Pending balance:</h3>
+<div id="wallet-balance-pending"></div>
+<br/><br/>
+
+<hr>
+
+<h1>Deposit:</h1>
+<h3>Deposit Address:</h3>
+<div id="wallet-deposit-address"></div>
+<br/>
+<button id="wallet-copy-deposit-address">Copy</button>
+<br/><br/>
+
+<hr>
+
+<h1>Withdraw:</h1>
+<h3>Destination Address:</h3>
+<input id="wallet-withdrawal-address" type="text" size="64" max_length="64" value="">
+<h3>Amount:</h3>
+<input id="wallet-withdrawal-amount" type="number" step="0.01" min="0.0" size="8" max_length="8" value="0.0">
+<br/><br/>
+<button id="wallet-withdraw">Withdraw</button>
+<br/><br/>
+
+<script src="../dist/index.js"></script>
+
+<script>
+const ban = banotils;
+function $(query) { return document.querySelector(query); }
+
+const KALIUM_REPRESENTATIVE = `ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo`;
+
+// Vault API
+const CORS_URL = `https://calm-waters-22733.herokuapp.com`;
+const VAULT_URL = `${CORS_URL}/https://vault.banano.cc/api/node-api`;
+
+const KALIUM_URL = `https://kaliumapi.appditto.com/api`;
+
+ban.setAPIURL(KALIUM_URL);
+
+async function generateRandomWallet() {
+  const seed = new Uint8Array(32);
+  crypto.getRandomValues(seed);
+  if (!ban.isSeedValid(seed)) throw new Error(`Invalid seed: '${ban.bytesToHex(seed)}'`);
+  const privateKey = ban.getPrivateKey(seed);
+  const publicKey = ban.getPublicKey(privateKey);
+  const address = ban.getAccountAddress(publicKey);
+  return {address, seed, publicKey, privateKey};
+}
+
+async function onUpdateWallet(address, seed, publicKey, privateKey) {
+  $(`#wallet-seed`).innerHTML = `${ban.bytesToHex(seed)}`;
+  $(`#wallet-address`).innerHTML = `${address}`;
+  $(`#wallet-public-key`).innerHTML = `${ban.bytesToHex(publicKey)}`;
+  $(`#wallet-private-key`).innerHTML = `${ban.bytesToHex(privateKey)}`;
+  $(`#wallet-deposit-address`).innerHTML = `${address}`;
+};
+
+async function onGenerateWallet() {
+  const {address, seed, publicKey, privateKey} = await generateRandomWallet();
+  await onUpdateWallet(address, seed, publicKey, privateKey);
+};
+
+async function onImportWallet() {
+  const importWalletSeed = $(`#import-wallet-seed`).value;
+  if (!importWalletSeed.length) return;
+
+  const seed = ban.hexToBytes(importWalletSeed);
+  const privateKey = ban.getPrivateKey(seed);
+  const publicKey = ban.getPublicKey(privateKey);
+  const address = ban.getAccountAddress(publicKey);
+  await onUpdateWallet(address, seed, publicKey, privateKey);
+};
+
+async function onProcessPending() {
+  const walletSeed = $(`#wallet-seed`).innerHTML;
+  if (!walletSeed.length) return;
+  const seed = ban.hexToBytes(walletSeed);
+  const privateKey = ban.getPrivateKey(seed);
+  const publicKey = ban.getPublicKey(privateKey);
+  // Process pending transactions
+  const pending = await ban.getAccountPending(publicKey);
+  for (const block of pending.blocks) {
+    await ban.receiveAccount(privateKey, ban.getPublicKey(KALIUM_REPRESENTATIVE), block.hash, block.amount);
+  }
+}
+
+async function onRefreshWallet() {
+  const walletAddress = $(`#wallet-address`).innerHTML;
+  if (!walletAddress.length) return;
+  const balance = await ban.getAccountBalance(ban.getPublicKey(walletAddress));
+  $(`#wallet-balance`).innerHTML = `${ban.getAmountFromRaw(balance.balance)}`;
+  $(`#wallet-balance-pending`).innerHTML = `${ban.getAmountFromRaw(balance.pending)}`;
+};
+
+async function onWithdrawWallet() {
+  const walletSeed = $(`#wallet-seed`).innerHTML;
+  const walletAddress = $(`#wallet-address`).innerHTML;
+  if (!walletSeed.length) return;
+  if (!walletAddress.length) return;
+
+  const withdrawalAmount = $(`#wallet-withdrawal-amount`).value;
+  const withdrawalAddress = $(`#wallet-withdrawal-address`).value;
+  if (!withdrawalAddress) return;
+
+  const withdrawalAmountRaw = ban.getRawFromAmount(withdrawalAmount);
+
+  const srcPrivateKey = ban.getPrivateKey(ban.hexToBytes(walletSeed));
+  const dstPublicKey = ban.getPublicKey(withdrawalAddress);
+
+  const result = await ban.sendAccount(srcPrivateKey, dstPublicKey, withdrawalAmountRaw,
+    async (hash) => { console.log(`Successfully withdrawn '${withdrawalAmount}' BAN`); },
+    async (error) => { console.error(`Failed to withdraw BAN:`, error); }
+  );
+};
+
+(async() => {
+
+  //await ban.setBananodeApiUrl(`https://kaliumapi.appditto.com/api`);
+
+  $(`#generate-wallet`).onclick = async() => {
+    await onGenerateWallet();
+    await onRefreshWallet();
+  };
+
+  $(`#import-wallet`).onclick = async() => {
+    await onImportWallet();
+    await onRefreshWallet();
+  };
+
+  $(`#wallet-withdraw`).onclick = async() => {
+    await onWithdrawWallet();
+    $(`#wallet-withdrawal-amount`).value = "0.0";
+    await onRefreshWallet();
+  };
+
+  $(`#wallet-copy-deposit-address`).onclick = async() => {
+    const depositAddress = $(`#wallet-deposit-address`).innerHTML;
+    if (!depositAddress.length) return;
+    await navigator.clipboard.writeText(depositAddress);
+  };
+
+  (async function refreshWalletLoop() {
+    await onProcessPending();
+    await onRefreshWallet();
+    setTimeout(refreshWalletLoop, 10e3);
+  })();
+
+  // Generate a random wallet automatically
+  $(`#generate-wallet`).click();
+
+})();
+
+</script>

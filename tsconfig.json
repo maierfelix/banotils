@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [],
+  "typeRoots": []
+}
