@@ -1,6 +1,6 @@
 {
   "name": "banotils",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
     "docs": "typedoc src/index.ts",
     "build": "rollup -c",
     "watch": "rollup -cw",
-    "http": "serve ./ -p 98"
+    "http": "serve ./"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^19.0.0",
