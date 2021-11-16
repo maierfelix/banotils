@@ -9,6 +9,11 @@ export declare function hexToBytes(hex: string): Uint8Array;
  */
 export declare function bytesToHex(bytes: Uint8Array): string;
 /**
+ * Converts the provided bytes into their bit equivalent
+ * @param bytes - The bytes to convert
+ */
+export declare function bytesToBits(bytes: Uint8Array): Uint8Array;
+/**
  * Converts the provided decimal value into the hexadecimal equivalent
  * @param decimal - The decimal value to convert
  * @param bytes - The byte stride of the provided value

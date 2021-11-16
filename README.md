@@ -15,12 +15,13 @@ npm install banotils
 
 ### Features:
  - RPC-based requests
- - Wallet generation (Seed, Private and Public keys)
+ - Wallet generation (Seed, Address, Private and Public keys)
+ - Mnemonic generation (BIP39)
  - Receiving and sending BAN
- - Several methods to query for data (Account balance, history etc.)
+ - Several methods for querying data (Account balance, history etc.)
  - GPU-based Proof-of-Work generation
-
 
 ### Inspired by:
  - [bananojs](https://github.com/BananoCoin/bananojs)
  - [bananovault](https://github.com/BananoCoin/bananovault)
+ - [bip39](https://github.com/bitcoinjs/bip39)

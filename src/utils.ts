@@ -24,6 +24,21 @@ export function bytesToHex(bytes: Uint8Array): string {
 }
 
 /**
+ * Converts the provided bytes into their bit equivalent
+ * @param bytes - The bytes to convert
+ */
+export function bytesToBits(bytes: Uint8Array): Uint8Array {
+  const bits = new Uint8Array(bytes.length * 8);
+  for (let ii = 0; ii < bytes.length; ++ii) {
+    const byte = bytes[ii];
+    for (let bb = 7; bb >= 0; --bb) {
+      bits[(ii * 8) + (7 - bb)] = byte & (1 << bb) ? 1 : 0;
+    }
+  }
+  return bits;
+}
+
+/**
  * Converts the provided decimal value into the hexadecimal equivalent
  * @param decimal - The decimal value to convert
  * @param bytes - The byte stride of the provided value

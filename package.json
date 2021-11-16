@@ -29,7 +29,10 @@
     "typedoc": "^0.21.2",
     "typescript": "^4.3.5"
   },
-  "keywords": [],
+  "keywords": [
+    "banano",
+    "wallet"
+  ],
   "author": "Felix Maier",
   "license": "MIT",
   "dependencies": {

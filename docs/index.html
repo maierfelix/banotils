@@ -82,9 +82,10 @@
 				</a>
 				<ul>
 					<li>RPC-based requests</li>
-					<li>Wallet generation (Seed, Private and Public keys)</li>
+					<li>Wallet generation (Seed, Address, Private and Public keys)</li>
+					<li>Mnemonic generation (BIP39)</li>
 					<li>Receiving and sending BAN</li>
-					<li>Several methods to query for data (Account balance, history etc.)</li>
+					<li>Several methods for querying data (Account balance, history etc.)</li>
 					<li>GPU-based Proof-of-Work generation</li>
 				</ul>
 				<a href="#inspired-by" id="inspired-by" style="color: inherit; text-decoration: none;">
@@ -93,6 +94,7 @@
 				<ul>
 					<li><a href="https://github.com/BananoCoin/bananojs">bananojs</a></li>
 					<li><a href="https://github.com/BananoCoin/bananovault">bananovault</a></li>
+					<li><a href="https://github.com/bitcoinjs/bip39">bip39</a></li>
 				</ul>
 			</div>
 		</div>
@@ -107,10 +109,16 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-function">
+						<a href="modules.html#bytesToBits" class="tsd-kind-icon">bytes<wbr>ToBits</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="modules.html#bytesToHex" class="tsd-kind-icon">bytes<wbr>ToHex</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#decimalToHex" class="tsd-kind-icon">decimal<wbr>ToHex</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#entropyToMnemonic" class="tsd-kind-icon">entropy<wbr>ToMnemonic</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#getAccountAddress" class="tsd-kind-icon">get<wbr>Account<wbr>Address</a>
@@ -150,6 +158,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#isWorkValid" class="tsd-kind-icon">is<wbr>Work<wbr>Valid</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#mnemonicToEntropy" class="tsd-kind-icon">mnemonic<wbr>ToEntropy</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#openAccount" class="tsd-kind-icon">open<wbr>Account</a>

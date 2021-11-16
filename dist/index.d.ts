@@ -5,6 +5,7 @@ import { IAccountPendingResponse } from "./rpc/account-pending";
 import { IAccountRepresentativeResponse } from "./rpc/account-representative";
 import { IBlockProcessResponse } from "./rpc/block-process";
 export * from "./utils";
+export * from "./mnemonic";
 /**
  * Sets the API URL of the node to perform requests with
  */

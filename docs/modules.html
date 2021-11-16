@@ -64,8 +64,10 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function"><a href="modules.html#bytesToBits" class="tsd-kind-icon">bytes<wbr>ToBits</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#bytesToHex" class="tsd-kind-icon">bytes<wbr>ToHex</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#decimalToHex" class="tsd-kind-icon">decimal<wbr>ToHex</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#entropyToMnemonic" class="tsd-kind-icon">entropy<wbr>ToMnemonic</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#getAccountAddress" class="tsd-kind-icon">get<wbr>Account<wbr>Address</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#getAccountBalance" class="tsd-kind-icon">get<wbr>Account<wbr>Balance</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#getAccountHistory" class="tsd-kind-icon">get<wbr>Account<wbr>History</a></li>
@@ -79,6 +81,7 @@
 								<li class="tsd-kind-function"><a href="modules.html#hexToBytes" class="tsd-kind-icon">hex<wbr>ToBytes</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#isSeedValid" class="tsd-kind-icon">is<wbr>Seed<wbr>Valid</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#isWorkValid" class="tsd-kind-icon">is<wbr>Work<wbr>Valid</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#mnemonicToEntropy" class="tsd-kind-icon">mnemonic<wbr>ToEntropy</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#openAccount" class="tsd-kind-icon">open<wbr>Account</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#receiveAccount" class="tsd-kind-icon">receive<wbr>Account</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#sendAccount" class="tsd-kind-icon">send<wbr>Account</a></li>
@@ -91,6 +94,37 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="bytesToBits" class="tsd-anchor"></a>
+					<h3>bytes<wbr>ToBits</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">bytes<wbr>ToBits<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L30">utils.ts:30</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts the provided bytes into their bit equivalent</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>bytes: <span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The bytes to convert</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="bytesToHex" class="tsd-anchor"></a>
 					<h3>bytes<wbr>ToHex</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -100,7 +134,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/utils.ts#L22">utils.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L22">utils.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -131,7 +165,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/utils.ts#L31">utils.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L46">utils.ts:46</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -159,6 +193,37 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="entropyToMnemonic" class="tsd-anchor"></a>
+					<h3>entropy<wbr>ToMnemonic</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">entropy<wbr>ToMnemonic<span class="tsd-signature-symbol">(</span>entropy<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in mnemonic.ts:2070</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts the provided entropy into an equivalent mnemonic</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>entropy: <span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The entropy to convert</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="getAccountAddress" class="tsd-anchor"></a>
 					<h3>get<wbr>Account<wbr>Address</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -168,7 +233,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/utils.ts#L150">utils.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L165">utils.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -199,7 +264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/index.ts#L157">index.ts:157</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/index.ts#L158">index.ts:158</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -230,7 +295,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/index.ts#L192">index.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/index.ts#L193">index.ts:193</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -267,7 +332,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/index.ts#L140">index.ts:140</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/index.ts#L141">index.ts:141</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -298,7 +363,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/index.ts#L212">index.ts:212</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/index.ts#L213">index.ts:213</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -335,7 +400,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/index.ts#L174">index.ts:174</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/index.ts#L175">index.ts:175</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -366,7 +431,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/utils.ts#L107">utils.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L122">utils.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -397,7 +462,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/utils.ts#L124">utils.ts:124</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L139">utils.ts:139</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -434,7 +499,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/utils.ts#L137">utils.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L152">utils.ts:152</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -465,7 +530,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/utils.ts#L89">utils.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L104">utils.ts:104</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -496,7 +561,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/utils.ts#L10">utils.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L10">utils.ts:10</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -527,7 +592,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/utils.ts#L65">utils.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L80">utils.ts:80</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -558,7 +623,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/utils.ts#L75">utils.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/utils.ts#L90">utils.ts:90</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -592,6 +657,37 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="mnemonicToEntropy" class="tsd-anchor"></a>
+					<h3>mnemonic<wbr>ToEntropy</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">mnemonic<wbr>ToEntropy<span class="tsd-signature-symbol">(</span>mnemonic<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in mnemonic.ts:2092</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts the provided mnemonic into it&#39;s equivalent entropy</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>mnemonic: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The mnemonic to convert</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="openAccount" class="tsd-anchor"></a>
 					<h3>open<wbr>Account</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -601,7 +697,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/index.ts#L235">index.ts:235</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/index.ts#L236">index.ts:236</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -650,7 +746,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/index.ts#L259">index.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/index.ts#L260">index.ts:260</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -699,7 +795,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/index.ts#L293">index.ts:293</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/index.ts#L294">index.ts:294</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -742,7 +838,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee2752c/src/index.ts#L127">index.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/0a1e55c/src/index.ts#L128">index.ts:128</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -773,10 +869,16 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-function">
+						<a href="modules.html#bytesToBits" class="tsd-kind-icon">bytes<wbr>ToBits</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="modules.html#bytesToHex" class="tsd-kind-icon">bytes<wbr>ToHex</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#decimalToHex" class="tsd-kind-icon">decimal<wbr>ToHex</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#entropyToMnemonic" class="tsd-kind-icon">entropy<wbr>ToMnemonic</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#getAccountAddress" class="tsd-kind-icon">get<wbr>Account<wbr>Address</a>
@@ -816,6 +918,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#isWorkValid" class="tsd-kind-icon">is<wbr>Work<wbr>Valid</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#mnemonicToEntropy" class="tsd-kind-icon">mnemonic<wbr>ToEntropy</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#openAccount" class="tsd-kind-icon">open<wbr>Account</a>

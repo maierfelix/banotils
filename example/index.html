@@ -4,20 +4,25 @@
 
 <button id="generate-wallet">Generate Wallet</button>
 <br/><br/>
-<button id="import-wallet">Import Wallet Seed</button>
+<button id="import-wallet-by-seed">Import Wallet Seed</button>
 <input id="import-wallet-seed" type="text" size="66" max="64">
+<br/>
+<br/>
+<button id="import-wallet-by-mnemonic">Import Wallet Mnemonic</button>
+<input id="import-wallet-mnemonic" type="text" size="66">
 <h3>Seed:</h3>
 <div id="wallet-seed"></div>
 <h3>Public key:</h3>
 <div id="wallet-public-key"></div>
 <h3>Private key:</h3>
 <div id="wallet-private-key"></div>
-
+<h3>Address:</h3>
+<div id="wallet-address"></div>
+<h3>Mnemonic:</h3>
+<div id="wallet-mnemonic"></div>
 <hr>
 
 <h1>General:</h1>
-<h3>Address:</h3>
-<div id="wallet-address"></div>
 <h3>Balance:</h3>
 <div id="wallet-balance"></div>
 <h3>Pending balance:</h3>
@@ -69,23 +74,25 @@ async function generateRandomWallet() {
   const privateKey = ban.getPrivateKey(seed);
   const publicKey = ban.getPublicKey(privateKey);
   const address = ban.getAccountAddress(publicKey);
-  return {address, seed, publicKey, privateKey};
+  const mnemonic = await ban.entropyToMnemonic(seed);
+  return {address, mnemonic, seed, publicKey, privateKey};
 }
 
-async function onUpdateWallet(address, seed, publicKey, privateKey) {
+async function onUpdateWallet(address, mnemonic, seed, publicKey, privateKey) {
   $(`#wallet-seed`).innerHTML = `${ban.bytesToHex(seed)}`;
   $(`#wallet-address`).innerHTML = `${address}`;
+  $(`#wallet-mnemonic`).innerHTML = `${mnemonic}`;
   $(`#wallet-public-key`).innerHTML = `${ban.bytesToHex(publicKey)}`;
   $(`#wallet-private-key`).innerHTML = `${ban.bytesToHex(privateKey)}`;
   $(`#wallet-deposit-address`).innerHTML = `${address}`;
 };
 
 async function onGenerateWallet() {
-  const {address, seed, publicKey, privateKey} = await generateRandomWallet();
-  await onUpdateWallet(address, seed, publicKey, privateKey);
+  const {address, mnemonic, seed, publicKey, privateKey} = await generateRandomWallet();
+  await onUpdateWallet(address, mnemonic, seed, publicKey, privateKey);
 };
 
-async function onImportWallet() {
+async function onImportWalletSeed() {
   const importWalletSeed = $(`#import-wallet-seed`).value;
   if (!importWalletSeed.length) return;
 
@@ -93,7 +100,20 @@ async function onImportWallet() {
   const privateKey = ban.getPrivateKey(seed);
   const publicKey = ban.getPublicKey(privateKey);
   const address = ban.getAccountAddress(publicKey);
-  await onUpdateWallet(address, seed, publicKey, privateKey);
+  const mnemonic = await ban.entropyToMnemonic(seed);
+  await onUpdateWallet(address, mnemonic, seed, publicKey, privateKey);
+};
+
+async function onImportWalletMnemonic() {
+  const importWalletMnemonic = $(`#import-wallet-mnemonic`).value;
+  if (!importWalletMnemonic.length) return;
+  const importWalletSeed = ban.bytesToHex(await ban.mnemonicToEntropy(importWalletMnemonic));
+
+  const seed = ban.hexToBytes(importWalletSeed);
+  const privateKey = ban.getPrivateKey(seed);
+  const publicKey = ban.getPublicKey(privateKey);
+  const address = ban.getAccountAddress(publicKey);
+  await onUpdateWallet(address, importWalletMnemonic, seed, publicKey, privateKey);
 };
 
 async function onProcessPending() {
@@ -142,8 +162,13 @@ async function onWithdrawWallet() {
     await onRefreshWallet();
   };
 
-  $(`#import-wallet`).onclick = async() => {
-    await onImportWallet();
+  $(`#import-wallet-by-seed`).onclick = async() => {
+    await onImportWalletSeed();
+    await onRefreshWallet();
+  };
+
+  $(`#import-wallet-by-mnemonic`).onclick = async() => {
+    await onImportWalletMnemonic();
     await onRefreshWallet();
   };
 
