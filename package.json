@@ -36,7 +36,8 @@
   "author": "Felix Maier",
   "license": "MIT",
   "dependencies": {
-    "blakejs": "^1.1.1"
+    "blakejs": "^1.1.1",
+    "minimal-qr-code": "^1.1.1"
   },
   "description": "This repository contains several utils to work with the cryptocurrency [Banano](https://banano.cc/) inside the browser.",
   "directories": {

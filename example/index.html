@@ -20,6 +20,8 @@
 <div id="wallet-address"></div>
 <h3>Mnemonic:</h3>
 <div id="wallet-mnemonic"></div>
+<h3>QR Code:</h3>
+<div id="wallet-qr-code"></div>
 <hr>
 
 <h1>General:</h1>
@@ -85,6 +87,11 @@ async function onUpdateWallet(address, mnemonic, seed, publicKey, privateKey) {
   $(`#wallet-public-key`).innerHTML = `${ban.bytesToHex(publicKey)}`;
   $(`#wallet-private-key`).innerHTML = `${ban.bytesToHex(privateKey)}`;
   $(`#wallet-deposit-address`).innerHTML = `${address}`;
+  // Append QR code
+  const qrCode = ban.generateAccountAddressQRCode(address);
+  qrCode.style.width = "10%";
+  $(`#wallet-qr-code`).innerHTML = "";
+  $(`#wallet-qr-code`).appendChild(qrCode);
 };
 
 async function onGenerateWallet() {
