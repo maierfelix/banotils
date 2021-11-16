@@ -17,6 +17,7 @@ npm install banotils
  - RPC-based requests
  - Wallet generation (Seed, Address, Private and Public keys)
  - Mnemonic generation (BIP39)
+ - QR code generation
  - Receiving and sending BAN
  - Several methods for querying data (Account balance, history etc.)
  - GPU-based Proof-of-Work generation
