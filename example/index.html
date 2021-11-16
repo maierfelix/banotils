@@ -33,15 +33,6 @@
 
 <hr>
 
-<h1>Deposit:</h1>
-<h3>Deposit Address:</h3>
-<div id="wallet-deposit-address"></div>
-<br/>
-<button id="wallet-copy-deposit-address">Copy</button>
-<br/><br/>
-
-<hr>
-
 <h1>Withdraw:</h1>
 <h3>Destination Address:</h3>
 <input id="wallet-withdrawal-address" type="text" size="64" max_length="64" value="">
@@ -86,7 +77,6 @@ async function onUpdateWallet(address, mnemonic, seed, publicKey, privateKey) {
   $(`#wallet-mnemonic`).innerHTML = `${mnemonic}`;
   $(`#wallet-public-key`).innerHTML = `${ban.bytesToHex(publicKey)}`;
   $(`#wallet-private-key`).innerHTML = `${ban.bytesToHex(privateKey)}`;
-  $(`#wallet-deposit-address`).innerHTML = `${address}`;
   // Append QR code
   const qrCode = ban.generateAccountAddressQRCode(address);
   qrCode.style.width = "10%";
@@ -183,12 +173,6 @@ async function onWithdrawWallet() {
     await onWithdrawWallet();
     $(`#wallet-withdrawal-amount`).value = "0.0";
     await onRefreshWallet();
-  };
-
-  $(`#wallet-copy-deposit-address`).onclick = async() => {
-    const depositAddress = $(`#wallet-deposit-address`).innerHTML;
-    if (!depositAddress.length) return;
-    await navigator.clipboard.writeText(depositAddress);
   };
 
   (async function refreshWalletLoop() {
