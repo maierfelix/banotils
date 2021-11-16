@@ -5,6 +5,7 @@ import { IAccountPendingResponse } from "./rpc/account-pending";
 import { IAccountRepresentativeResponse } from "./rpc/account-representative";
 import { IBlockProcessResponse } from "./rpc/block-process";
 export * from "./utils";
+export * from "./pow-gpu";
 export * from "./qr-code";
 export * from "./mnemonic";
 /**

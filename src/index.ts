@@ -14,6 +14,7 @@ import {signHash} from "./crypto";
 import {IBlockProcessResponse, parseBlockProcessResponse} from "./rpc/block-process";
 
 export * from "./utils";
+export * from "./pow-gpu";
 export * from "./qr-code";
 export * from "./mnemonic";
 
