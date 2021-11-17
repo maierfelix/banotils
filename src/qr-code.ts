@@ -7,7 +7,6 @@ import * as qrcode from "minimal-qr-code";
 export function generateAccountAddressQRCode(address: string): HTMLCanvasElement {
   const qr = qrcode.makeQR(address, 5, 0);
   const canvas = document.createElement("canvas");
-  canvas.style.imageRendering = "pixelated";
   const ctx = canvas.getContext("2d");
   canvas.width = qr.size;
   canvas.height = qr.size;

@@ -94,14 +94,12 @@ function request(data: any): Promise<any> {
         "Content-Length": String(body.length)
       },
       body: body
-    })
-      .then(response => {
-        const content = response.json();
-        resolve(content);
-      })
-      .catch(error => {
-        reject(error);
-      });
+    }).then(response => {
+      const content = response.json();
+      resolve(content);
+    }).catch(error => {
+      reject(error);
+    });
   });
 }
 
@@ -143,8 +141,8 @@ export function setAPIURL(url: string): void {
 export async function getAccountInfo(publicKey: Uint8Array): Promise<IAccountInfoResponse> {
   const accountAddress = getAccountAddress(publicKey);
   const json = await request({
-    action: "account_info",
-    account: accountAddress,
+    "action": "account_info",
+    "account": accountAddress,
   });
   if (!isValidJSONResponse(json)) {
     logResponseError(json.error);
@@ -160,8 +158,8 @@ export async function getAccountInfo(publicKey: Uint8Array): Promise<IAccountInf
 export async function getAccountBalance(publicKey: Uint8Array): Promise<IAccountBalanceResponse> {
   const accountAddress = getAccountAddress(publicKey);
   const json = await request({
-    action: "accounts_balances",
-    accounts: [accountAddress],
+    "action": "accounts_balances",
+    "accounts": [accountAddress],
   });
   if (!isValidJSONResponse(json)) {
     logResponseError(json.error);
@@ -177,8 +175,8 @@ export async function getAccountBalance(publicKey: Uint8Array): Promise<IAccount
 export async function getAccountRepresentative(publicKey: Uint8Array): Promise<IAccountRepresentativeResponse> {
   const accountAddress = getAccountAddress(publicKey);
   const json = await request({
-    action: "account_representative",
-    account: accountAddress,
+    "action": "account_representative",
+    "account": accountAddress,
   });
   if (!isValidJSONResponse(json)) {
     logResponseError(json.error);
@@ -195,10 +193,10 @@ export async function getAccountRepresentative(publicKey: Uint8Array): Promise<I
 export async function getAccountHistory(publicKey: Uint8Array, count: number = -1): Promise<IAccountHistoryResponse> {
   const accountAddress = getAccountAddress(publicKey);
   const json = await request({
-    action: "account_history",
-    account: accountAddress,
-    count: count,
-    raw: false
+    "action": "account_history",
+    "account": accountAddress,
+    "count": count,
+    "raw": false
   });
   if (!isValidJSONResponse(json)) {
     logResponseError(json.error);
@@ -215,11 +213,11 @@ export async function getAccountHistory(publicKey: Uint8Array, count: number = -
 export async function getAccountPending(publicKey: Uint8Array, count: number = -1): Promise<IAccountPendingResponse> {
   const accountAddress = getAccountAddress(publicKey);
   const json = await request({
-    action: "accounts_pending",
-    accounts: [accountAddress],
-    count: count,
-    threshold: 1,
-    source: true,
+    "action": "accounts_pending",
+    "accounts": [accountAddress],
+    "count": count,
+    "threshold": 1,
+    "source": true,
   });
   if (!isValidJSONResponse(json)) {
     logResponseError(json.error);

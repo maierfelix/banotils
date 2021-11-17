@@ -88,6 +88,7 @@ async function onUpdateWallet(address, mnemonic, seed, publicKey, privateKey) {
   // Append QR code
   const qrCode = ban.generateAccountAddressQRCode(address);
   qrCode.style.width = "10%";
+  qrCode.style.imageRendering = "pixelated";
   $(`#wallet-qr-code`).innerHTML = "";
   $(`#wallet-qr-code`).appendChild(qrCode);
   // Append monkey

@@ -23,7 +23,13 @@ export default {
       name: "banotils",
       file: "dist/index.iife.js",
       format: "iife",
-    }
+    },
+    {
+      name: "banotils",
+      file: "dist/index.iife.min.js",
+      format: "iife",
+      plugins: [terser()],
+    },
   ],
   plugins: [
     clear({
@@ -44,6 +50,5 @@ export default {
       sourceMap: false,
       include: "./node_modules/**"
     }),
-    terser(),
   ]
 };
