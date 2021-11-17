@@ -9,8 +9,13 @@ This repository contains several utils to work with the cryptocurrency [Banano](
 The documentation is auto-generated and can be found [here](https://maierfelix.github.io/banotils/docs).
 
 ### Installation:
+Package installation:
 ````
 npm install banotils
+````
+Browser installation:
+````html
+<script src="https://unpkg.com/banotils/dist/index.iife.min.js"></script>
 ````
 
 ### Features:
