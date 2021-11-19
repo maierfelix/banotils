@@ -9,9 +9,10 @@ import {IAccountHistoryResponse, parseAccountHistoryResponse} from "./rpc/accoun
 import {IAccountInfoResponse, parseAccountInfoResponse} from "./rpc/account-info";
 import {IAccountPendingResponse, parseAccountPendingResponse} from "./rpc/account-pending";
 import {IAccountRepresentativeResponse, parseAccountRepresentativeResponse} from "./rpc/account-representative";
-import {getWorkGPU} from "./pow-gpu";
 import {signHash} from "./crypto";
 import {IBlockProcessResponse, parseBlockProcessResponse} from "./rpc/block-process";
+import {getWorkGPU} from "./pow-gpu";
+import {getWorkCPU} from "./pow-cpu";
 
 export * from "./utils";
 export * from "./pow-gpu";
@@ -41,11 +42,31 @@ function hashBlock(block: any): Uint8Array {
 }
 
 /**
+ * Indicates if WebGL2 is supported
+ */
+function isWebGL2Supported(): boolean {
+  try {
+    const canvas = document.createElement("canvas"); 
+    if (typeof WebGL2RenderingContext !== "undefined") {
+      if (canvas.getContext("webgl2") !== null) {
+        return true;
+      }
+    }
+  } catch(e) {}
+  return false;
+}
+
+/**
  * Generates proof of work for the provided hash (Currently only supports running on the GPU)
  * @param hash - The hash to generate work for
  */
 async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
-  const work = await getWorkGPU(hash);
+  let work: Uint8Array = null;
+  // Use GPU work generation if available
+  if (isWebGL2Supported()) work = await getWorkGPU(hash);
+  // In case webgl2 isn't supported, use CPU work fallback
+  else work = await getWorkCPU(hash);
+  // Validate the generated work
   if (!isWorkValid(hash, work, 0xFFFFFE00n)) throw new Error(`Generated work '${bytesToHex(work)}' is invalid`);
   return work;
 }
