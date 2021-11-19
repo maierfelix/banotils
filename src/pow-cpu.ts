@@ -18,13 +18,13 @@ import { EPOCH1_MIN_DIFFICULTY } from "./constants";
  * Calculates work for the provided hash
  * @param hash - The hash to generate work for
  */
-export function getWorkCPU(hash: Uint8Array, minDifficulty: bigint = EPOCH1_MIN_DIFFICULTY): Uint8Array {
+export function getWorkCPU(hashBytes: Uint8Array, minDifficulty: bigint = EPOCH1_MIN_DIFFICULTY): Uint8Array {
   while(true) {
     const workBytes = new Uint8Array(8);
     crypto.getRandomValues(workBytes);
     const context = blake.blake2bInit(8);
     blake.blake2bUpdate(context, workBytes);
-    blake.blake2bUpdate(context, hash);
+    blake.blake2bUpdate(context, hashBytes);
     const difficultyBytes = blake.blake2bFinal(context).reverse();
     const difficultyHex = bytesToHex(difficultyBytes);
     const difficulty: bigint = BigInt(`0x${difficultyHex}`);
