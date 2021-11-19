@@ -1,6 +1,6 @@
 {
   "name": "banotils",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -33,7 +33,7 @@
   "author": "Felix Maier",
   "license": "MIT",
   "dependencies": {
-    "blakejs": "github:maierfelix/blakejs",
+    "blakejs": "^1.1.1",
     "minimal-qr-code": "^1.1.1"
   },
   "description": "This repository contains several utils to work with the cryptocurrency [Banano](https://banano.cc/) inside the browser.",

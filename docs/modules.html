@@ -67,6 +67,8 @@
 								<li class="tsd-kind-function"><a href="modules.html#bytesToBits" class="tsd-kind-icon">bytes<wbr>ToBits</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#bytesToHex" class="tsd-kind-icon">bytes<wbr>ToHex</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#decimalToHex" class="tsd-kind-icon">decimal<wbr>ToHex</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#decryptHash" class="tsd-kind-icon">decrypt<wbr>Hash</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#encryptHash" class="tsd-kind-icon">encrypt<wbr>Hash</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#entropyToMnemonic" class="tsd-kind-icon">entropy<wbr>ToMnemonic</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#generateAccountAddressQRCode" class="tsd-kind-icon">generate<wbr>Account<wbr>AddressQRCode</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#getAccountAddress" class="tsd-kind-icon">get<wbr>Account<wbr>Address</a></li>
@@ -105,7 +107,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L30">utils.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L30">utils.ts:30</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -136,7 +138,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L22">utils.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L22">utils.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -167,7 +169,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L46">utils.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L46">utils.ts:46</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -195,6 +197,92 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="decryptHash" class="tsd-anchor"></a>
+					<h3>decrypt<wbr>Hash</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">decrypt<wbr>Hash<span class="tsd-signature-symbol">(</span>hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, iv<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L202">utils.ts:202</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decrypts the provided encrypted hash with the given password</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hash: <span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The hash to decrypt</p>
+									</div>
+								</li>
+								<li>
+									<h5>password: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The password to decrypt the hash with</p>
+									</div>
+								</li>
+								<li>
+									<h5>iv: <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> = null</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An optional initialization vector to decrypt with</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="encryptHash" class="tsd-anchor"></a>
+					<h3>encrypt<wbr>Hash</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">encrypt<wbr>Hash<span class="tsd-signature-symbol">(</span>hash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, password<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, iv<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L175">utils.ts:175</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Encrypts the provided hash with the given password</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hash: <span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The hash to encrypt</p>
+									</div>
+								</li>
+								<li>
+									<h5>password: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The password to encrypt the hash with</p>
+									</div>
+								</li>
+								<li>
+									<h5>iv: <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol"> = null</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An optional initialization vector to encrypt with</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="entropyToMnemonic" class="tsd-anchor"></a>
 					<h3>entropy<wbr>ToMnemonic</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -204,7 +292,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/mnemonic.ts#L21">mnemonic.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/mnemonic.ts#L21">mnemonic.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -235,7 +323,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/qr-code.ts#L7">qr-code.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/qr-code.ts#L7">qr-code.ts:7</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -266,7 +354,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L165">utils.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L165">utils.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -297,7 +385,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/index.ts#L158">index.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/index.ts#L158">index.ts:158</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -328,7 +416,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/index.ts#L193">index.ts:193</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/index.ts#L193">index.ts:193</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -365,7 +453,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/index.ts#L141">index.ts:141</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/index.ts#L141">index.ts:141</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -396,7 +484,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/index.ts#L213">index.ts:213</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/index.ts#L213">index.ts:213</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -433,7 +521,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/index.ts#L175">index.ts:175</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/index.ts#L175">index.ts:175</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -464,7 +552,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L122">utils.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L122">utils.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -495,7 +583,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L139">utils.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L139">utils.ts:139</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -532,7 +620,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L152">utils.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L152">utils.ts:152</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -563,7 +651,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L104">utils.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L104">utils.ts:104</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -594,7 +682,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/pow-gpu.ts#L45">pow-gpu.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/pow-gpu.ts#L45">pow-gpu.ts:45</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -631,7 +719,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L10">utils.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L10">utils.ts:10</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -662,7 +750,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L80">utils.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L80">utils.ts:80</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -693,7 +781,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/utils.ts#L90">utils.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/utils.ts#L90">utils.ts:90</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -736,7 +824,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/mnemonic.ts#L43">mnemonic.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/mnemonic.ts#L43">mnemonic.ts:43</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -767,7 +855,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/index.ts#L236">index.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/index.ts#L236">index.ts:236</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -816,7 +904,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/index.ts#L260">index.ts:260</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/index.ts#L260">index.ts:260</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -865,7 +953,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/index.ts#L294">index.ts:294</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/index.ts#L294">index.ts:294</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -908,7 +996,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/51acd9e/src/index.ts#L128">index.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/a75b8aa/src/index.ts#L128">index.ts:128</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -946,6 +1034,12 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#decimalToHex" class="tsd-kind-icon">decimal<wbr>ToHex</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#decryptHash" class="tsd-kind-icon">decrypt<wbr>Hash</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#encryptHash" class="tsd-kind-icon">encrypt<wbr>Hash</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#entropyToMnemonic" class="tsd-kind-icon">entropy<wbr>ToMnemonic</a>

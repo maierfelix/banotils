@@ -165,3 +165,60 @@ export function getPublicKey(input: (Uint8Array | string)): Uint8Array {
 export function getAccountAddress(publicKey: Uint8Array): string {
   return deriveAddressFromPublicKey(bytesToHex(publicKey));
 }
+
+/**
+ * Encrypts the provided hash with the given password
+ * @param hash - The hash to encrypt
+ * @param password - The password to encrypt the hash with
+ * @param iv - An optional initialization vector to encrypt with
+ */
+export async function encryptHash(hash: Uint8Array, password: string, iv: Uint8Array = null): Promise<Uint8Array> {
+  const passwordBytes = new TextEncoder().encode(password);
+  const passwordKey = await crypto.subtle.importKey(
+    "raw",
+    passwordBytes, {name: "PBKDF2"},
+    false, ["deriveBits", "deriveKey"]
+  );
+  const key = await crypto.subtle.deriveKey(
+    {name: "PBKDF2", iterations: 100000, salt: new Uint8Array(16), hash: "SHA-256"},
+    passwordKey, {name: "AES-GCM", length: 256},
+    true,
+    ["encrypt", "decrypt"]
+  );
+  const encrypted = await window.crypto.subtle.encrypt(
+    {name: "AES-GCM", iv: iv || new Uint8Array(12)},
+    key,
+    hash
+  );
+  return new Uint8Array(encrypted);
+}
+
+/**
+ * Decrypts the provided encrypted hash with the given password
+ * @param hash - The hash to decrypt
+ * @param password - The password to decrypt the hash with
+ * @param iv - An optional initialization vector to decrypt with
+ */
+export async function decryptHash(hash: Uint8Array, password: string, iv: Uint8Array = null): Promise<Uint8Array> {
+  const passwordBytes = new TextEncoder().encode(password);
+  const passwordKey = await crypto.subtle.importKey(
+    "raw",
+    passwordBytes, {name: "PBKDF2"},
+    false, ["deriveBits", "deriveKey"]
+  );
+  const key = await crypto.subtle.deriveKey(
+    {name: "PBKDF2", iterations: 100000, salt: new Uint8Array(16), hash: "SHA-256"},
+    passwordKey, {name: "AES-GCM", length: 256},
+    true,
+    ["encrypt", "decrypt"]
+  );
+  try {
+    const decrypted = await window.crypto.subtle.decrypt(
+      {name: "AES-GCM", iv: iv || new Uint8Array(12)},
+      key,
+      hash
+    );
+    return new Uint8Array(decrypted);
+  } catch(e) {}
+  return null;
+}
