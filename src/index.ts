@@ -11,10 +11,11 @@ import {IAccountPendingResponse, parseAccountPendingResponse} from "./rpc/accoun
 import {IAccountRepresentativeResponse, parseAccountRepresentativeResponse} from "./rpc/account-representative";
 import {signHash} from "./crypto";
 import {IBlockProcessResponse, parseBlockProcessResponse} from "./rpc/block-process";
-import {getWorkGPU} from "./pow-gpu";
 import {getWorkCPU} from "./pow-cpu";
+import {getWorkGPU} from "./pow-gpu";
 
 export * from "./utils";
+export * from "./pow-cpu";
 export * from "./pow-gpu";
 export * from "./qr-code";
 export * from "./mnemonic";
