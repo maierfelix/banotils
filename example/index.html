@@ -58,43 +58,31 @@
   <a class="github-button" href="https://github.com/maierfelix/banotils" data-size="large" aria-label="Star maierfelix/banotils on GitHub">Star</a>
 </div>
 
-<script src="https://unpkg.com/banotils/dist/index.iife.min.js"></script>
-
-<script type="module">
-const ban = banotils;
+<script>
 function $(query) { return document.querySelector(query); }
 
+// Use Kalium representative by default
 const KALIUM_REPRESENTATIVE = `ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo`;
-
-// Vault API
-const CORS_URL = `https://calm-waters-22733.herokuapp.com`;
-const VAULT_URL = `${CORS_URL}/https://vault.banano.cc/api/node-api`;
-
-// Kalium API
-const KALIUM_URL = `https://kaliumapi.appditto.com/api`;
-
-// Use Kalium by default
-ban.setAPIURL(KALIUM_URL);
 
 async function generateRandomWallet() {
   const seed = new Uint8Array(32);
   crypto.getRandomValues(seed);
-  if (!ban.isSeedValid(seed)) throw new Error(`Invalid seed: '${ban.bytesToHex(seed)}'`);
-  const privateKey = ban.getPrivateKey(seed);
-  const publicKey = ban.getPublicKey(privateKey);
-  const address = ban.getAccountAddress(publicKey);
-  const mnemonic = await ban.entropyToMnemonic(seed);
+  if (!banotils.isSeedValid(seed)) throw new Error(`Invalid seed: '${banotils.bytesToHex(seed)}'`);
+  const privateKey = banotils.getPrivateKey(seed);
+  const publicKey = banotils.getPublicKey(privateKey);
+  const address = banotils.getAccountAddress(publicKey);
+  const mnemonic = await banotils.entropyToMnemonic(seed);
   return {address, mnemonic, seed, publicKey, privateKey};
 }
 
 async function onUpdateWallet(address, mnemonic, seed, publicKey, privateKey) {
-  $(`#wallet-seed`).innerHTML = `${ban.bytesToHex(seed)}`;
+  $(`#wallet-seed`).innerHTML = `${banotils.bytesToHex(seed)}`;
   $(`#wallet-address`).innerHTML = `${address}`;
   $(`#wallet-mnemonic`).innerHTML = `${mnemonic}`;
-  $(`#wallet-public-key`).innerHTML = `${ban.bytesToHex(publicKey)}`;
-  $(`#wallet-private-key`).innerHTML = `${ban.bytesToHex(privateKey)}`;
+  $(`#wallet-public-key`).innerHTML = `${banotils.bytesToHex(publicKey)}`;
+  $(`#wallet-private-key`).innerHTML = `${banotils.bytesToHex(privateKey)}`;
   // Append QR code
-  const qrCode = ban.generateAccountAddressQRCode(address);
+  const qrCode = banotils.generateAccountAddressQRCode(address);
   qrCode.style.width = "10%";
   qrCode.style.imageRendering = "pixelated";
   $(`#wallet-qr-code`).innerHTML = "";
@@ -116,23 +104,23 @@ async function onImportWalletSeed() {
   const importWalletSeed = $(`#import-wallet-seed`).value;
   if (!importWalletSeed.length) return;
 
-  const seed = ban.hexToBytes(importWalletSeed);
-  const privateKey = ban.getPrivateKey(seed);
-  const publicKey = ban.getPublicKey(privateKey);
-  const address = ban.getAccountAddress(publicKey);
-  const mnemonic = await ban.entropyToMnemonic(seed);
+  const seed = banotils.hexToBytes(importWalletSeed);
+  const privateKey = banotils.getPrivateKey(seed);
+  const publicKey = banotils.getPublicKey(privateKey);
+  const address = banotils.getAccountAddress(publicKey);
+  const mnemonic = await banotils.entropyToMnemonic(seed);
   await onUpdateWallet(address, mnemonic, seed, publicKey, privateKey);
 }
 
 async function onImportWalletMnemonic() {
   const importWalletMnemonic = $(`#import-wallet-mnemonic`).value;
   if (!importWalletMnemonic.length) return;
-  const importWalletSeed = ban.bytesToHex(await ban.mnemonicToEntropy(importWalletMnemonic));
+  const importWalletSeed = banotils.bytesToHex(await banotils.mnemonicToEntropy(importWalletMnemonic));
 
-  const seed = ban.hexToBytes(importWalletSeed);
-  const privateKey = ban.getPrivateKey(seed);
-  const publicKey = ban.getPublicKey(privateKey);
-  const address = ban.getAccountAddress(publicKey);
+  const seed = banotils.hexToBytes(importWalletSeed);
+  const privateKey = banotils.getPrivateKey(seed);
+  const publicKey = banotils.getPublicKey(privateKey);
+  const address = banotils.getAccountAddress(publicKey);
   await onUpdateWallet(address, importWalletMnemonic, seed, publicKey, privateKey);
 }
 
@@ -141,8 +129,8 @@ async function onEncryptSeed() {
   if (!walletSeed.length) return;
 
   let password = window.prompt("Enter password");
-  const encrypted = await ban.encryptHash(ban.hexToBytes(walletSeed), password);
-  $(`#encrypted-seed`).value = ban.bytesToHex(encrypted);
+  const encrypted = await banotils.encryptHash(banotils.hexToBytes(walletSeed), password);
+  $(`#encrypted-seed`).value = banotils.bytesToHex(encrypted);
 }
 
 async function onDecryptSeed() {
@@ -152,33 +140,33 @@ async function onDecryptSeed() {
   if (!encryptedSeed.length) return;
 
   let password = window.prompt("Enter password");
-  const decrypted = await ban.decryptHash(ban.hexToBytes(encryptedSeed), password);
+  const decrypted = await banotils.decryptHash(banotils.hexToBytes(encryptedSeed), password);
   // Incorrect password
   if (decrypted === null) return alert(`Invalid password!`);
   // Decrypted wallet seed doesn't match wallet seed
-  if (ban.bytesToHex(decrypted) !== walletSeed) alert(`Decrypted wallet seed doesn't match current wallet seed!`);
-  $(`#decrypted-seed`).value = ban.bytesToHex(decrypted);
+  if (banotils.bytesToHex(decrypted) !== walletSeed) alert(`Decrypted wallet seed doesn't match current wallet seed!`);
+  $(`#decrypted-seed`).value = banotils.bytesToHex(decrypted);
 }
 
 async function onProcessPending() {
   const walletSeed = $(`#wallet-seed`).innerHTML;
   if (!walletSeed.length) return;
-  const seed = ban.hexToBytes(walletSeed);
-  const privateKey = ban.getPrivateKey(seed);
-  const publicKey = ban.getPublicKey(privateKey);
+  const seed = banotils.hexToBytes(walletSeed);
+  const privateKey = banotils.getPrivateKey(seed);
+  const publicKey = banotils.getPublicKey(privateKey);
   // Process pending transactions
-  const pending = await ban.getAccountPending(publicKey);
+  const pending = await banotils.getAccountPending(publicKey);
   for (const block of pending.blocks) {
-    await ban.receiveAccount(privateKey, ban.getPublicKey(KALIUM_REPRESENTATIVE), block.hash, block.amount);
+    await banotils.receiveAccount(privateKey, banotils.getPublicKey(KALIUM_REPRESENTATIVE), block.hash, block.amount);
   }
 }
 
 async function onRefreshWallet() {
   const walletAddress = $(`#wallet-address`).innerHTML;
   if (!walletAddress.length) return;
-  const balance = await ban.getAccountBalance(ban.getPublicKey(walletAddress));
-  $(`#wallet-balance`).innerHTML = `${ban.getAmountFromRaw(balance.balance)}`;
-  $(`#wallet-balance-pending`).innerHTML = `${ban.getAmountFromRaw(balance.pending)}`;
+  const balance = await banotils.getAccountBalance(banotils.getPublicKey(walletAddress));
+  $(`#wallet-balance`).innerHTML = `${banotils.getAmountFromRaw(balance.balance)}`;
+  $(`#wallet-balance-pending`).innerHTML = `${banotils.getAmountFromRaw(balance.pending)}`;
 }
 
 async function onWithdrawWallet() {
@@ -191,12 +179,12 @@ async function onWithdrawWallet() {
   const withdrawalAddress = $(`#wallet-withdrawal-address`).value;
   if (!withdrawalAddress) return;
 
-  const withdrawalAmountRaw = ban.getRawFromAmount(withdrawalAmount);
+  const withdrawalAmountRaw = banotils.getRawFromAmount(withdrawalAmount);
 
-  const srcPrivateKey = ban.getPrivateKey(ban.hexToBytes(walletSeed));
-  const dstPublicKey = ban.getPublicKey(withdrawalAddress);
+  const srcPrivateKey = banotils.getPrivateKey(banotils.hexToBytes(walletSeed));
+  const dstPublicKey = banotils.getPublicKey(withdrawalAddress);
 
-  const result = await ban.sendAccount(srcPrivateKey, dstPublicKey, withdrawalAmountRaw);
+  const result = await banotils.sendAccount(srcPrivateKey, dstPublicKey, withdrawalAmountRaw);
 }
 
 (async() => {
@@ -236,8 +224,25 @@ async function onWithdrawWallet() {
     setTimeout(refreshWalletLoop, 10e3);
   })();
 
-  // Generate a random wallet automatically
-  $(`#generate-wallet`).click();
+  // Load banotils code
+  {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.onload = e => {
+      // Use Kalium API by default
+      banotils.setAPIURL(`https://kaliumapi.appditto.com/api`);
+      // Generate a random wallet automatically
+      $(`#generate-wallet`).click();
+    };
+    // Load banano build locally if we're on localhost
+    if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+      script.src = "../dist/index.iife.min.js";
+    // Load banano build from cdn otherwise
+    } else {
+      script.src = "https://unpkg.com/banotils/dist/index.iife.min.js";
+    }
+    document.head.appendChild(script);
+  }
 
 })();
 
