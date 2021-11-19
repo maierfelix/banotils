@@ -16,7 +16,7 @@ import { EPOCH1_MIN_DIFFICULTY } from "./constants";
 
 /**
  * Calculates work for the provided hash
- * @param hash - The hash to generate work for
+ * @param hashBytes - The hash to generate work for
  */
 export function getWorkCPU(hashBytes: Uint8Array, minDifficulty: bigint = EPOCH1_MIN_DIFFICULTY): Uint8Array {
   while(true) {
