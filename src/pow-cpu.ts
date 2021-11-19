@@ -1,4 +1,6 @@
 import blake from "blakejs";
+import { bytesToHex } from "./utils";
+import { EPOCH1_MIN_DIFFICULTY } from "./constants";
 
 //function WorkerCode(): void {
 //  (self as any).addEventListener("message", (e: MessageEvent): void => {
@@ -16,26 +18,22 @@ import blake from "blakejs";
  * Calculates work for the provided hash
  * @param hash - The hash to generate work for
  */
-export function getWorkCPU(hash: Uint8Array): Uint8Array {
-  //return new Promise(resolve => {
-  //  worker.postMessage(hash);
-  //  worker.onmessage = (e): void => {
-  //    resolve(e.data);
-  //  };
-  //});
-  for (let ii = 0; ii < 4096; ++ii) {
-    const rand = new Uint8Array(8);
-    crypto.getRandomValues(rand);
-    for (let r = 0; r < 256; r++) {
-      rand[7] = (rand[7] + r) % 256;
-      const context = blake.blake2bInit(8);
-      blake.blake2bUpdate(context, rand);
-      blake.blake2bUpdate(context, hash);
-      const work = blake.blake2bFinal(context).reverse();
-      if ((work[0] == 255) && (work[1] == 255) && (work[2] == 255) && (work[3] >= 192)) {
-        return rand.reverse();
-      }
+export function getWorkCPU(hash: Uint8Array, minDifficulty: bigint = EPOCH1_MIN_DIFFICULTY): Uint8Array {
+  let workValid = false;
+  let workBytes: Uint8Array;
+
+  while(!workValid) {
+    workBytes = new Uint8Array(8);
+    crypto.getRandomValues(workBytes);
+    const context = blake.blake2bInit(8);
+    blake.blake2bUpdate(context, workBytes);
+    blake.blake2bUpdate(context, hash);
+    const workBytes = blake.blake2bFinal(context).reverse();
+    const workHex = bytesToHex(workBytes);
+    const workDifficulty: bigint = BigInt(`0x${workHex}`);
+
+    if (workDifficulty >= minDifficulty) {
+      return workBytes;
     }
   }
-  return new Uint8Array(8);
 }
