@@ -18,7 +18,7 @@ import { EPOCH1_MIN_DIFFICULTY } from "./constants";
  * Calculates work for the provided hash
  * @param hashBytes - The hash to generate work for
  */
-export function getWorkCPU(hashBytes: Uint8Array, minDifficulty: bigint = EPOCH1_MIN_DIFFICULTY): Uint8Array {
+export function getWorkCPU(hashBytes: Uint8Array, minDifficulty: bigint = EPOCH1_MIN_DIFFICULTY): string {
   while(true) {
     const workBytes = new Uint8Array(8);
     crypto.getRandomValues(workBytes);
@@ -30,7 +30,7 @@ export function getWorkCPU(hashBytes: Uint8Array, minDifficulty: bigint = EPOCH1
     const difficulty: bigint = BigInt(`0x${difficultyHex}`);
 
     if (difficulty >= minDifficulty) {
-      return workBytes;
+      return bytesToHex(workBytes.reverse());
     }
   }
 }
