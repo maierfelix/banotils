@@ -86,12 +86,6 @@ module.exports = {
         format: ["PascalCase"],
         prefix: ["I"],
       },
-      {
-        selector: "variable",
-        types: ["boolean"],
-        format: ["PascalCase"],
-        prefix: ["do", "is", "use", "should", "has", "got", "was", "can", "did", "will", "should", "must", "enable", "disable", "read", "write", "align"],
-      },
     ],
     curly: "off",
     "no-mixed-operators": "warn",

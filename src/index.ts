@@ -22,6 +22,8 @@ export * from "./mnemonic";
 
 let API_URL = ``;
 
+const IS_WEBGL2_SUPPORTED = isWebGL2Supported();
+
 /**
  * Returns the hash of provided block
  * @param block - The block to hash
@@ -64,7 +66,7 @@ function isWebGL2Supported(): boolean {
 async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
   let work: Uint8Array = null;
   // Use GPU work generation if available
-  if (isWebGL2Supported()) work = await getWorkGPU(hash);
+  if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash);
   // In case webgl2 isn't supported, use CPU work fallback
   else work = await getWorkCPU(hash);
   // Validate the generated work
