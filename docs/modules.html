@@ -64,6 +64,8 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function"><a href="modules.html#bitsToByte" class="tsd-kind-icon">bits<wbr>ToByte</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#byteToBits" class="tsd-kind-icon">byte<wbr>ToBits</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#bytesToBits" class="tsd-kind-icon">bytes<wbr>ToBits</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#bytesToHex" class="tsd-kind-icon">bytes<wbr>ToHex</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#decimalToHex" class="tsd-kind-icon">decimal<wbr>ToHex</a></li>
@@ -99,6 +101,80 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="bitsToByte" class="tsd-anchor"></a>
+					<h3>bits<wbr>ToByte</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">bits<wbr>ToByte<span class="tsd-signature-symbol">(</span>bits<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, byteStride<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L31">utils.ts:31</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts the provided bits into their byte equivalent</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>bits: <span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The bits to convert</p>
+									</div>
+								</li>
+								<li>
+									<h5>byteStride: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 8</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An optional byte stride</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="byteToBits" class="tsd-anchor"></a>
+					<h3>byte<wbr>ToBits</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">byte<wbr>ToBits<span class="tsd-signature-symbol">(</span>byte<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, byteStride<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L44">utils.ts:44</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts the provided byte into it&#39;s bit equivalent</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>byte: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The byte to convert</p>
+									</div>
+								</li>
+								<li>
+									<h5>byteStride: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 8</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An optional byte stride</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Uint8Array</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="bytesToBits" class="tsd-anchor"></a>
 					<h3>bytes<wbr>ToBits</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -108,7 +184,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L30">utils.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L56">utils.ts:56</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -139,7 +215,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L22">utils.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L22">utils.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -170,7 +246,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L46">utils.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L72">utils.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -207,7 +283,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L202">utils.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L228">utils.ts:228</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -250,7 +326,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L175">utils.ts:175</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L201">utils.ts:201</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -293,7 +369,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/mnemonic.ts#L21">mnemonic.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/mnemonic.ts#L21">mnemonic.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -324,7 +400,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/qr-code.ts#L7">qr-code.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/qr-code.ts#L7">qr-code.ts:7</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -355,7 +431,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L165">utils.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L191">utils.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -386,7 +462,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/index.ts#L182">index.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/index.ts#L182">index.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -417,7 +493,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/index.ts#L217">index.ts:217</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/index.ts#L217">index.ts:217</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -454,7 +530,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/index.ts#L165">index.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/index.ts#L165">index.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -485,7 +561,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/index.ts#L237">index.ts:237</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/index.ts#L237">index.ts:237</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -522,7 +598,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/index.ts#L199">index.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/index.ts#L199">index.ts:199</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -553,7 +629,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L122">utils.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L148">utils.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -584,7 +660,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L139">utils.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L165">utils.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -621,7 +697,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L152">utils.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L178">utils.ts:178</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -652,7 +728,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L104">utils.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L130">utils.ts:130</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -683,7 +759,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/pow-cpu.ts#L8">pow-cpu.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/pow-cpu.ts#L8">pow-cpu.ts:8</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -714,7 +790,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/pow-gpu.ts#L45">pow-gpu.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/pow-gpu.ts#L45">pow-gpu.ts:45</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -751,7 +827,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L10">utils.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L10">utils.ts:10</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -782,7 +858,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L80">utils.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L106">utils.ts:106</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -813,7 +889,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/utils.ts#L90">utils.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/utils.ts#L116">utils.ts:116</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -856,7 +932,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/mnemonic.ts#L43">mnemonic.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/mnemonic.ts#L43">mnemonic.ts:43</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -887,7 +963,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/index.ts#L260">index.ts:260</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/index.ts#L260">index.ts:260</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -936,7 +1012,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/index.ts#L284">index.ts:284</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/index.ts#L284">index.ts:284</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -985,7 +1061,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/index.ts#L318">index.ts:318</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/index.ts#L318">index.ts:318</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1028,7 +1104,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/70ce7c8/src/index.ts#L152">index.ts:152</a></li>
+									<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/c58e61b/src/index.ts#L152">index.ts:152</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1058,6 +1134,12 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-function">
+						<a href="modules.html#bitsToByte" class="tsd-kind-icon">bits<wbr>ToByte</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#byteToBits" class="tsd-kind-icon">byte<wbr>ToBits</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#bytesToBits" class="tsd-kind-icon">bytes<wbr>ToBits</a>
 					</li>

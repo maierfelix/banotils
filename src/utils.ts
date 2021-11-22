@@ -24,15 +24,41 @@ export function bytesToHex(bytes: Uint8Array): string {
 }
 
 /**
+ * Converts the provided bits into their byte equivalent
+ * @param bits - The bits to convert
+ * @param byteStride - An optional byte stride
+ */
+export function bitsToByte(bits: Uint8Array, byteStride: number = 8): number {
+  let byte = 0;
+  for (let bb = byteStride - 1; bb >= 0; --bb) {
+    byte |= (bits[bb] << bb);
+  }
+  return byte;
+}
+
+/**
+ * Converts the provided byte into it's bit equivalent
+ * @param byte - The byte to convert
+ * @param byteStride - An optional byte stride
+ */
+export function byteToBits(byte: number, byteStride: number = 8): Uint8Array {
+  const bits = new Uint8Array(byteStride);
+  for (let bb = byteStride - 1; bb >= 0; --bb) {
+    bits[byteStride - 1 - bb] = byte & (1 << bb) ? 1 : 0;
+  }
+  return bits;
+}
+
+/**
  * Converts the provided bytes into their bit equivalent
  * @param bytes - The bytes to convert
  */
 export function bytesToBits(bytes: Uint8Array): Uint8Array {
   const bits = new Uint8Array(bytes.length * 8);
   for (let ii = 0; ii < bytes.length; ++ii) {
-    const byte = bytes[ii];
-    for (let bb = 7; bb >= 0; --bb) {
-      bits[(ii * 8) + (7 - bb)] = byte & (1 << bb) ? 1 : 0;
+    const b = byteToBits(bytes[ii], 8);
+    for (let bb = 0; bb < 8; ++bb) {
+      bits[(ii * 8) + bb] = b[bb];
     }
   }
   return bits;
