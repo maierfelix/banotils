@@ -4,6 +4,16 @@ import {deriveAddressFromPublicKey, derivePublicKeyFromAddress, derivePublicKeyF
 const SEED_ALPHABET_REGEX = new RegExp(`^[0123456789abcdefABCDEF]{64}$`);
 
 /**
+ * Clamps the provided number between the given min/max range
+ * @param num - The number to clamp
+ * @param min - The minimum clamp bound
+ * @param max - The maximum clamp bound
+ */
+export function clamp(num: number, min: number, max: number): number {
+  return Math.max(min, Math.min(num, max));
+}
+
+/**
  * Converts the provided hex into the equivalent bytes
  * @param hex - The hex to convert
  */
@@ -62,6 +72,35 @@ export function bytesToBits(bytes: Uint8Array): Uint8Array {
     }
   }
   return bits;
+}
+
+/**
+ * Converts the provided 1-d bits into N-d bits
+ * @param bitsn - The 1-d bits to convert
+ * @param bitStride - The bit stride to use
+ */
+export function bitsToBitsN(bits: Uint8Array, bitStride: number): Uint8Array {
+  const output = new Uint8Array(Math.ceil(bits.length / bitStride));
+  for (let ii = 0; ii < output.length; ++ii) {
+    output[ii] = bitsToByte(bits.subarray((ii * bitStride) + 0, (ii * bitStride) + bitStride), bitStride);
+  }
+  return output;
+}
+
+/**
+ * Converts the provided N-d bits into 1-d bits
+ * @param bitsn - The N-d bits to convert
+ * @param bitStride - The bit stride to use
+ */
+export function bitsNToBits(bitsn: Uint8Array, bitStride: number): Uint8Array {
+  const output = new Uint8Array(Math.floor(bitsn.length * bitStride));
+  for (let ii = 0; ii < bitsn.length; ++ii) {
+    const bits = byteToBits(bitsn[ii], bitStride);
+    for (let bb = 0; bb < bitStride; ++bb) {
+      output[(ii * bitStride) + bb] = bits[bitStride - 1 - bb];
+    }
+  }
+  return output;
 }
 
 /**

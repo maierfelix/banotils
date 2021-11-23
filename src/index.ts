@@ -14,11 +14,12 @@ import {IBlockProcessResponse, parseBlockProcessResponse} from "./rpc/block-proc
 import {getWorkCPU} from "./pow-cpu";
 import {getWorkGPU} from "./pow-gpu";
 
-export * from "./utils";
+export * from "./mnemonic";
+export * from "./packet";
 export * from "./pow-cpu";
 export * from "./pow-gpu";
 export * from "./qr-code";
-export * from "./mnemonic";
+export * from "./utils";
 
 let API_URL = ``;
 
