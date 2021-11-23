@@ -25,6 +25,85 @@ let API_URL = ``;
 const IS_WEBGL2_SUPPORTED = isWebGL2Supported();
 
 /**
+ * Indicates if WebGL2 is supported
+ */
+function isWebGL2Supported(): boolean {
+  try {
+    const canvas = document.createElement("canvas"); 
+    if (typeof WebGL2RenderingContext !== "undefined") {
+      if (canvas.getContext("webgl2") !== null) {
+        return true;
+      }
+    }
+  } catch(e) {}
+  return false;
+}
+
+/**
+ * Submits a POST request to a node
+ * @param data - The form data to send
+ */
+function request(data: any): Promise<any> {
+  // Validate API URL
+  if (!API_URL) throw new Error(`API URL is invalid`);
+  // Perform request
+  return new Promise((resolve, reject) => {
+    try {
+      const body = JSON.stringify(data);
+      fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Length": String(body.length)
+        },
+        body: body
+      }).then(response => {
+        const content = response.json();
+        resolve(content);
+      }).catch(error => {
+        reject(error);
+      });
+    } catch (e) {
+      resolve({error: "Request failed"});
+    }
+  });
+}
+
+/**
+ * Indicates if the responded json is valid
+ * @param json - The json to check
+ */
+function isValidJSONResponse(json: any): boolean {
+  return json ? !json.hasOwnProperty("error") : false;
+}
+
+/**
+ * Logs the response error along with the callee of this function
+ * @param error - The error message to log
+ */
+function logResponseError(error: string): void {
+  const stack = new Error("").stack.split("\n")[2].replace(/^\s+at\s+(.+?)\s.+/g, "$1");
+  const callee = stack.substr(stack.lastIndexOf(".") + 1).trim();
+  // eslint-disable-next-line no-console
+  console.warn(`API call '${callee}' failed with: '${error}'`);
+}
+
+/**
+ * Generates proof of work for the provided hash (Currently only supports running on the GPU)
+ * @param hash - The hash to generate work for
+ */
+async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
+  let work: Uint8Array = null;
+  // Use GPU work generation if available
+  if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash);
+  // In case webgl2 isn't supported, use CPU work fallback
+  else work = await getWorkCPU(hash);
+  // Validate the generated work
+  if (!isWorkValid(hash, work, 0xFFFFFE00n)) throw new Error(`Generated work '${bytesToHex(work)}' is invalid`);
+  return work;
+}
+
+/**
  * Returns the hash of provided block
  * @param block - The block to hash
  */
@@ -42,36 +121,6 @@ function hashBlock(block: any): Uint8Array {
   blake.blake2bUpdate(context, hexToBytes(block.link));
   const hash = blake.blake2bFinal(context);
   return hash;
-}
-
-/**
- * Indicates if WebGL2 is supported
- */
-function isWebGL2Supported(): boolean {
-  try {
-    const canvas = document.createElement("canvas"); 
-    if (typeof WebGL2RenderingContext !== "undefined") {
-      if (canvas.getContext("webgl2") !== null) {
-        return true;
-      }
-    }
-  } catch(e) {}
-  return false;
-}
-
-/**
- * Generates proof of work for the provided hash (Currently only supports running on the GPU)
- * @param hash - The hash to generate work for
- */
-async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
-  let work: Uint8Array = null;
-  // Use GPU work generation if available
-  if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash);
-  // In case webgl2 isn't supported, use CPU work fallback
-  else work = await getWorkCPU(hash);
-  // Validate the generated work
-  if (!isWorkValid(hash, work, 0xFFFFFE00n)) throw new Error(`Generated work '${bytesToHex(work)}' is invalid`);
-  return work;
 }
 
 /**
@@ -99,51 +148,6 @@ async function generateProcessBlock(privateKey: Uint8Array, previousHash: (Uint8
   block.link = bytesToHex(hash);
   block.signature = bytesToHex(signHash(privateKey, hashBlock(block)));
   return block;
-}
-
-/**
- * Submits a POST request to a node
- * @param data - The form data to send
- */
-function request(data: any): Promise<any> {
-  // Validate API URL
-  if (!API_URL) throw new Error(`API URL is invalid`);
-  // Perform request
-  return new Promise((resolve, reject) => {
-    const body = JSON.stringify(data);
-    fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Content-Length": String(body.length)
-      },
-      body: body
-    }).then(response => {
-      const content = response.json();
-      resolve(content);
-    }).catch(error => {
-      reject(error);
-    });
-  });
-}
-
-/**
- * Indicates if the responded json is valid
- * @param json - The json to check
- */
-function isValidJSONResponse(json: any): boolean {
-  return json ? !json.hasOwnProperty("error") : false;
-}
-
-/**
- * Logs the response error along with the callee of this function
- * @param error - The error message to log
- */
-function logResponseError(error: string): void {
-  const stack = new Error("").stack.split("\n")[2].replace(/^\s+at\s+(.+?)\s.+/g, "$1");
-  const callee = stack.substr(stack.lastIndexOf(".") + 1).trim();
-  // eslint-disable-next-line no-console
-  console.warn(`API call '${callee}' failed with: '${error}'`);
 }
 
 /**
@@ -213,15 +217,20 @@ export async function getAccountRepresentative(publicKey: Uint8Array): Promise<I
  * Returns the history of the provided account
  * @param publicKey - The public key of the account to query for
  * @param count - Optional limit of history items to query
+ * @param reverse - Optionally query history items in reverse order
+ * @param head - Optional block head to start querying at
  */
-export async function getAccountHistory(publicKey: Uint8Array, count: number = -1): Promise<IAccountHistoryResponse> {
+export async function getAccountHistory(publicKey: Uint8Array, count: number = -1, reverse: boolean = false, head: Uint8Array = null): Promise<IAccountHistoryResponse> {
   const accountAddress = getAccountAddress(publicKey);
-  const json = await request({
+  const data: any = {
     action: "account_history",
     account: accountAddress,
     count: count,
     raw: false
-  });
+  };
+  if (head !== null) data.head = bytesToHex(head);
+  if (reverse) data.reverse = true;
+  const json = await request(data);
   if (!isValidJSONResponse(json)) {
     logResponseError(json.error);
     return null;
@@ -240,7 +249,7 @@ export async function getAccountPending(publicKey: Uint8Array, count: number = -
     action: "accounts_pending",
     accounts: [accountAddress],
     count: count,
-    threshold: 1,
+    threshold: 0,
     source: true,
   });
   if (!isValidJSONResponse(json)) {
