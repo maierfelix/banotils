@@ -25,18 +25,23 @@ let API_URL = ``;
 
 const IS_WEBGL2_SUPPORTED = isWebGL2Supported();
 
+const MIN_WEBGL_TEXTURE_SIZE = 2048;
+
 /**
  * Indicates if WebGL2 is supported
  */
 function isWebGL2Supported(): boolean {
   try {
-    const canvas = document.createElement("canvas"); 
+    const canvas = document.createElement("canvas");
     if (typeof WebGL2RenderingContext !== "undefined") {
-      if (canvas.getContext("webgl2") !== null) {
-        return true;
+      const gl = canvas.getContext("webgl2");
+      if (gl !== null) {
+        if (gl.getParameter(gl.MAX_TEXTURE_SIZE) >= MIN_WEBGL_TEXTURE_SIZE) {
+          return true;
+        }
       }
     }
-  } catch(e) {}
+  } catch (e) { }
   return false;
 }
 
@@ -96,7 +101,7 @@ function logResponseError(error: string): void {
 async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
   let work: Uint8Array = null;
   // Use GPU work generation if available
-  if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash);
+  if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, 3);
   // In case webgl2 isn't supported, use CPU work fallback
   else work = await getWorkCPU(hash);
   // Validate the generated work
@@ -148,6 +153,7 @@ async function generateProcessBlock(privateKey: Uint8Array, previousHash: (Uint8
   block.work = bytesToHex(work);
   block.link = bytesToHex(hash);
   block.signature = bytesToHex(signHash(privateKey, hashBlock(block)));
+
   return block;
 }
 
@@ -323,19 +329,20 @@ export async function receiveAccount(privateKey: Uint8Array, representative: Uin
  * Send amount to the given the account
  * @param srcPrivateKey - The private key of the sender account
  * @param dstPublicKey - The public key of the receiver account
+ * @param representativePublicKey - The public key of the representative account to use
  * @param amount - The amount to send
  */
-export async function sendAccount(srcPrivateKey: Uint8Array, dstPublicKey: Uint8Array, amount: bigint): Promise<IBlockProcessResponse> {
+export async function sendAccount(srcPrivateKey: Uint8Array, dstPublicKey: Uint8Array, representativePublicKey: Uint8Array, amount: bigint): Promise<IBlockProcessResponse> {
   const srcPublicKey = getPublicKey(srcPrivateKey);
   const srcAccountInfo = await getAccountInfo(srcPublicKey);
   const srcAccountBalance = await getAccountBalance(srcPublicKey);
-  const srcAccountRepresentative = await getAccountRepresentative(srcPublicKey);
+  //const srcAccountRepresentative = await getAccountRepresentative(srcPublicKey);
 
   const balance = srcAccountBalance.balance - amount;
   if (srcAccountBalance.balance <= 0n || balance < 0n) return null;
 
   const previousHash = srcAccountInfo.frontier;
-  const block = await generateProcessBlock(srcPrivateKey, previousHash, srcAccountRepresentative.account, dstPublicKey, balance);
+  const block = await generateProcessBlock(srcPrivateKey, previousHash, representativePublicKey, dstPublicKey, balance);
 
   // Submit block to the blockchain
   const json = await request({

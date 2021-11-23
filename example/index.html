@@ -62,7 +62,7 @@
 function $(query) { return document.querySelector(query); }
 
 // Use Kalium representative by default
-const KALIUM_REPRESENTATIVE = `ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo`;
+const REPRESENTATIVE = `ban_1ka1ium4pfue3uxtntqsrib8mumxgazsjf58gidh1xeo5te3whsq8z476goo`;
 
 async function generateRandomWallet() {
   const seed = new Uint8Array(32);
@@ -157,7 +157,7 @@ async function onProcessPending() {
   // Process pending transactions
   const pending = await banotils.getAccountPending(publicKey);
   for (const block of pending.blocks) {
-    await banotils.receiveAccount(privateKey, banotils.getPublicKey(KALIUM_REPRESENTATIVE), block.hash, block.amount);
+    await banotils.receiveAccount(privateKey, banotils.getPublicKey(REPRESENTATIVE), block.hash, block.amount);
   }
 }
 
@@ -184,7 +184,7 @@ async function onWithdrawWallet() {
   const srcPrivateKey = banotils.getPrivateKey(banotils.hexToBytes(walletSeed));
   const dstPublicKey = banotils.getPublicKey(withdrawalAddress);
 
-  const result = await banotils.sendAccount(srcPrivateKey, dstPublicKey, withdrawalAmountRaw);
+  const result = await banotils.sendAccount(srcPrivateKey, dstPublicKey, banotils.getPublicKey(REPRESENTATIVE), withdrawalAmountRaw);
 }
 
 (async() => {
@@ -221,7 +221,7 @@ async function onWithdrawWallet() {
   (async function refreshWalletLoop() {
     await onProcessPending();
     await onRefreshWallet();
-    setTimeout(refreshWalletLoop, 10e3);
+    setTimeout(refreshWalletLoop, 0);
   })();
 
   // Load banotils code
