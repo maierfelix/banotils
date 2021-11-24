@@ -221,7 +221,7 @@ async function onWithdrawWallet() {
   (async function refreshWalletLoop() {
     await onProcessPending();
     await onRefreshWallet();
-    setTimeout(refreshWalletLoop, 0);
+    setTimeout(refreshWalletLoop, 100);
   })();
 
   // Load banotils code
