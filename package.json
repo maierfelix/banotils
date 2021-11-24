@@ -2,7 +2,6 @@
   "name": "banotils",
   "version": "0.1.6",
   "main": "dist/index.js",
-  "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "docs": "typedoc src/index.ts",
@@ -34,6 +33,7 @@
   "license": "MIT",
   "dependencies": {
     "blakejs": "^1.1.1",
+    "cross-fetch": "^3.1.4",
     "minimal-qr-code": "^1.1.1"
   },
   "description": "This repository contains several utils to work with the cryptocurrency [Banano](https://banano.cc/) inside the browser.",

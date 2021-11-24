@@ -1,3 +1,4 @@
+import crypto from "./polyfills/crypto";
 import {bytesToHex, hexToBytes} from "./utils";
 
 // @ts-ignore
@@ -21,21 +22,12 @@ function hexReverse(hex: string): string {
   return out;
 }
 
-const canvas = document.createElement("canvas");
-const gl = canvas.getContext("webgl2");
+let canvas: HTMLCanvasElement = null;
+let gl: WebGL2RenderingContext = null;
 
-const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-gl.shaderSource(vertexShader, vertSource);
-gl.compileShader(vertexShader);
-
-const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-gl.shaderSource(fragmentShader, fragSource);
-gl.compileShader(fragmentShader);
-
-const program = gl.createProgram();
-gl.attachShader(program, vertexShader);
-gl.attachShader(program, fragmentShader);
-gl.linkProgram(program);
+let program: WebGLProgram = null;
+let vertexShader: WebGLShader = null;
+let fragmentShader: WebGLShader = null;
 
 /**
  * Calculates the work for the provided hash
@@ -43,6 +35,24 @@ gl.linkProgram(program);
  * @param dimension - The dimension of the canvas to calculate on
  */
 export function getWorkGPU(hash: Uint8Array, dimension: number = 1): Promise<Uint8Array> {
+  // Setup GL resources if necessary
+  if (canvas === null) {
+    // Create surface
+    canvas = document.createElement("canvas");
+    gl = canvas.getContext("webgl2");
+    // Create shaders
+    vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, vertSource);
+    gl.compileShader(vertexShader);
+    fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, fragSource);
+    gl.compileShader(fragmentShader);
+    program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+  }
+
   canvas.width = canvas.height = 256 << dimension;
 
   const reverseHex = hexReverse(bytesToHex(hash));

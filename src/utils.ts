@@ -1,3 +1,4 @@
+import crypto from "./polyfills/crypto";
 import blake from "blakejs";
 import {deriveAddressFromPublicKey, derivePublicKeyFromAddress, derivePublicKeyFromPrivateKey} from "./crypto";
 
@@ -250,7 +251,7 @@ export async function encryptHash(hash: Uint8Array, password: string, iv: Uint8A
     true,
     ["encrypt", "decrypt"]
   );
-  const encrypted = await window.crypto.subtle.encrypt(
+  const encrypted = await crypto.subtle.encrypt(
     {name: "AES-GCM", iv: iv || new Uint8Array(12)},
     key,
     hash
@@ -278,7 +279,7 @@ export async function decryptHash(hash: Uint8Array, password: string, iv: Uint8A
     ["encrypt", "decrypt"]
   );
   try {
-    const decrypted = await window.crypto.subtle.decrypt(
+    const decrypted = await crypto.subtle.decrypt(
       {name: "AES-GCM", iv: iv || new Uint8Array(12)},
       key,
       hash

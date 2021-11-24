@@ -1,4 +1,5 @@
 import blake from "blakejs";
+import crypto from "./polyfills/crypto";
 import {bytesToHex} from "./utils";
 
 /**

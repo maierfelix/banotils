@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import blake from "blakejs";
-import crypto from "crypto";
+import crypto from "./polyfills/crypto";
 
 function hexToBytes(hex: string): Uint8Array {
   const result = new Uint8Array(hex.length / 2);

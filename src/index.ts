@@ -1,5 +1,6 @@
 import {bytesToHex, getPublicKey, hexToBytes, isWorkValid} from "./utils";
 
+import fetch from "cross-fetch";
 import blake from "blakejs";
 
 import {getAccountAddress} from "./utils";
@@ -32,12 +33,14 @@ const MIN_WEBGL_TEXTURE_SIZE = 2048;
  */
 function isWebGL2Supported(): boolean {
   try {
-    const canvas = document.createElement("canvas");
-    if (typeof WebGL2RenderingContext !== "undefined") {
-      const gl = canvas.getContext("webgl2");
-      if (gl !== null) {
-        if (gl.getParameter(gl.MAX_TEXTURE_SIZE) >= MIN_WEBGL_TEXTURE_SIZE) {
-          return true;
+    if (typeof document !== "undefined") {
+      const canvas = document.createElement("canvas");
+      if (typeof WebGL2RenderingContext !== "undefined") {
+        const gl = canvas.getContext("webgl2");
+        if (gl !== null) {
+          if (gl.getParameter(gl.MAX_TEXTURE_SIZE) >= MIN_WEBGL_TEXTURE_SIZE) {
+            return true;
+          }
         }
       }
     }
@@ -55,14 +58,12 @@ function request(data: any): Promise<any> {
   // Perform request
   return new Promise((resolve, reject) => {
     try {
-      const body = JSON.stringify(data);
       fetch(API_URL, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Content-Length": String(body.length)
+          "Content-Type": "application/json"
         },
-        body: body
+        body: JSON.stringify(data)
       }).then(response => {
         const content = response.json();
         resolve(content);
