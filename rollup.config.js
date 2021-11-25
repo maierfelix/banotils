@@ -9,7 +9,7 @@ export default [
   // Node
   {
     input: "src/index.ts",
-    external: ["cross-fetch", "cross-fetch/polyfill"],
+    external: ["cross-fetch"],
     output: [
       {
         name: "banotils",
