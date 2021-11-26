@@ -250,14 +250,15 @@ export async function getAccountHistory(publicKey: Uint8Array, count: number = -
  * Returns the pending blocks of the provided account
  * @param publicKey - The public key of the account to query for
  * @param count - Optional limit of pending blocks to query
+ * @param threshold - Optional minimum threshold of the pending blocks to query
  */
-export async function getAccountPending(publicKey: Uint8Array, count: number = -1): Promise<IAccountPendingResponse> {
+export async function getAccountPending(publicKey: Uint8Array, count: number = -1, threshold: bigint = 0n): Promise<IAccountPendingResponse> {
   const accountAddress = getAccountAddress(publicKey);
   const json = await request({
     action: "accounts_pending",
     accounts: [accountAddress],
     count: count,
-    threshold: 0,
+    threshold: threshold.toString(10),
     source: true,
   });
   if (!isValidJSONResponse(json)) {
