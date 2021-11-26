@@ -1,21 +1,29 @@
 import * as qrcode from "minimal-qr-code";
 
 /**
- * Returns a QR code representation of the provided account address
- * @param address - The account address to generate the QR code for
+ * Represents QR code data
  */
-export function generateAccountAddressQRCode(address: string): HTMLCanvasElement {
-  const qr = qrcode.makeQR(address, 5, 0);
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-  canvas.width = qr.size;
-  canvas.height = qr.size;
+interface IQRCodeData {
+  data: Uint8ClampedArray;
+  size: number;
+}
+
+/**
+ * Returns a QR code representation of the provided text
+ * @param text - The text to generate the QR code for
+ */
+export function generateQRCodeData(text: string, typeNumber: number = 5): IQRCodeData {
+  const qr = qrcode.makeQR(text, typeNumber, 0);
+  const data = new Uint8ClampedArray(4 * qr.size * qr.size);
   for (let yy = 0; yy < qr.size; ++yy) {
     for (let xx = 0; xx < qr.size; ++xx) {
-      const color = qr.isDark(xx, yy) ? `rgb(0, 0, 0)` : `rgb(255, 255, 255)`;
-      ctx.fillStyle = color;
-      ctx.fillRect(xx, yy, 1, 1);
+      const index = (qr.size * yy) + xx;
+      const color = qr.isDark(xx, yy) ? 0 : 255;
+      data[(index * 4) + 0] = color;
+      data[(index * 4) + 1] = color;
+      data[(index * 4) + 2] = color;
+      data[(index * 4) + 3] = 255;
     }
   }
-  return canvas;
+  return {data, size: qr.size};
 }

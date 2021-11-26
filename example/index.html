@@ -82,7 +82,11 @@ async function onUpdateWallet(address, mnemonic, seed, publicKey, privateKey) {
   $(`#wallet-public-key`).innerHTML = `${banotils.bytesToHex(publicKey)}`;
   $(`#wallet-private-key`).innerHTML = `${banotils.bytesToHex(privateKey)}`;
   // Append QR code
-  const qrCode = banotils.generateAccountAddressQRCode(address);
+  const qrData = banotils.generateQRCodeData(address, 5);
+  const qrImageData = new ImageData(qrData.data, qrData.size, qrData.size);
+  const qrCode = document.createElement("canvas");
+  qrCode.width = qrCode.height = qrData.size;
+  qrCode.getContext("2d").putImageData(qrImageData, 0, 0);
   qrCode.style.width = "10%";
   qrCode.style.imageRendering = "pixelated";
   $(`#wallet-qr-code`).innerHTML = "";
