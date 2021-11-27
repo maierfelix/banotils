@@ -225,16 +225,17 @@ async function onWithdrawWallet() {
   (async function refreshWalletLoop() {
     await onProcessPending();
     await onRefreshWallet();
-    setTimeout(refreshWalletLoop, 100);
+    setTimeout(refreshWalletLoop, 1e3);
   })();
 
   // Load banotils code
   {
     const script = document.createElement("script");
     script.type = "text/javascript";
-    script.onload = e => {
+    script.onload = async(e) => {
+      //await banotils.setAPIURL(`https://calm-waters-22733.herokuapp.com/https://vault.banano.cc/api/node-api`);
       // Use Kalium API by default
-      banotils.setAPIURL(`https://kaliumapi.appditto.com/api`);
+      await banotils.setAPIURL(`https://kaliumapi.appditto.com/api`);
       // Generate a random wallet automatically
       $(`#generate-wallet`).click();
     };

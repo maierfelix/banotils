@@ -4,14 +4,15 @@ import fetch from "cross-fetch";
 import blake from "blakejs";
 
 import {getAccountAddress} from "./utils";
+import {signHash} from "./crypto";
 
 import {IAccountBalanceResponse, parseAccountBalanceResponse} from "./rpc/account-balance";
 import {IAccountHistoryResponse, parseAccountHistoryResponse} from "./rpc/account-history";
 import {IAccountInfoResponse, parseAccountInfoResponse} from "./rpc/account-info";
 import {IAccountPendingResponse, parseAccountPendingResponse} from "./rpc/account-pending";
 import {IAccountRepresentativeResponse, parseAccountRepresentativeResponse} from "./rpc/account-representative";
-import {signHash} from "./crypto";
 import {IBlockProcessResponse, parseBlockProcessResponse} from "./rpc/block-process";
+import {IWorkGenerateResponse, parseWorkGenerateResponse} from "./rpc/work-generate";
 import {getWorkCPU} from "./pow-cpu";
 import {getWorkGPU} from "./pow-gpu";
 
@@ -27,6 +28,8 @@ let API_URL = ``;
 const IS_WEBGL2_SUPPORTED = isWebGL2Supported();
 
 const MIN_WEBGL_TEXTURE_SIZE = 2048;
+
+let IS_SERVER_WORK_SUPPORTED = false;
 
 /**
  * Indicates if WebGL2 is supported
@@ -89,10 +92,8 @@ function isValidJSONResponse(json: any): boolean {
  * @param error - The error message to log
  */
 function logResponseError(error: string): void {
-  const stack = new Error("").stack.split("\n")[2].replace(/^\s+at\s+(.+?)\s.+/g, "$1");
-  const callee = stack.substr(stack.lastIndexOf(".") + 1).trim();
   // eslint-disable-next-line no-console
-  console.warn(`API call '${callee}' failed with: '${error}'`);
+  console.warn(`API call failed with: '${error}'`);
 }
 
 /**
@@ -103,7 +104,9 @@ async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
   let work: Uint8Array = null;
   // Use GPU work generation if available
   if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, 3);
-  // In case webgl2 isn't supported, use CPU work fallback
+  // In case webgl2 isn't supported, check if the node supports work generation
+  else if (IS_SERVER_WORK_SUPPORTED) work = (await getWorkNODE(hash)).work;
+  // Otherwise use the (super slow) CPU work fallback
   else work = await getWorkCPU(hash);
   // Validate the generated work
   if (!isWorkValid(hash, work, 0xFFFFFE00n)) throw new Error(`Generated work '${bytesToHex(work)}' is invalid`);
@@ -161,13 +164,36 @@ async function generateProcessBlock(privateKey: Uint8Array, previousHash: (Uint8
 /**
  * Sets the API URL of the node to perform requests with
  */
-export function setAPIURL(url: string): void {
+export async function setAPIURL(url: string): Promise<void> {
   // Validate API URL
   if (url.startsWith("https") || url.startsWith("http")) {
     API_URL = url;
   } else {
     throw new Error(`Invalid API URL`);
   }
+  // Arbitrary existing block hash to get work for
+  const hash = hexToBytes(`8711A7FCA0F2CDBBA739FBB7948C9AEFCA509931A50EC0922FF0DC3737708E93`);
+  // Test it the API node supports work generation
+  const result = await getWorkNODE(hash);
+  if (result !== null && result.work instanceof Uint8Array && isWorkValid(hash, result.work, 0xFFFFFE00n)) {
+    IS_SERVER_WORK_SUPPORTED = true;
+  }
+}
+
+/**
+ * Calculates work on the NODE for the provided hash
+ * @param hash - The hash to calculate work for
+ */
+export async function getWorkNODE(hash: Uint8Array): Promise<IWorkGenerateResponse> {
+  const json = await request({
+    action: "work_generate",
+    hash: bytesToHex(hash),
+  });
+  if (!isValidJSONResponse(json)) {
+    logResponseError(json.error);
+    return null;
+  }
+  return parseWorkGenerateResponse(json);
 }
 
 /**

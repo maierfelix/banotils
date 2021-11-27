@@ -30,7 +30,7 @@ let vertexShader: WebGLShader = null;
 let fragmentShader: WebGLShader = null;
 
 /**
- * Calculates work for the provided hash
+ * Calculates work on the GPU for the provided hash
  * @param hash - The hash to calculate work for
  * @param dimension - Optional canvas dimension
  */
