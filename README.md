@@ -26,6 +26,7 @@ Browser installation:
  - Receiving and sending BAN
  - Several methods for querying data (Account balance, history etc.)
  - GPU-based Proof-of-Work generation
+ - Steganography (Encoding data into transaction digits)
 
 ### Inspired by:
  - [bananojs](https://github.com/BananoCoin/bananojs)
