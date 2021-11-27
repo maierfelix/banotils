@@ -31,7 +31,7 @@ let fragmentShader: WebGLShader = null;
 
 /**
  * Calculates work for the provided hash
- * @param hash - The hash to generate work for
+ * @param hash - The hash to calculate work for
  * @param dimension - Optional canvas dimension
  */
 export function getWorkGPU(hash: Uint8Array, dimension: number = 1): Promise<Uint8Array> {
