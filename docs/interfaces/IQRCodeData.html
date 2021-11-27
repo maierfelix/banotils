@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IPacketLayoutMember | banotils</title>
+	<title>IQRCodeData | banotils</title>
 	<meta name="description" content="Documentation for banotils">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">banotils</a>
 				</li>
 				<li>
-					<a href="IPacketLayoutMember.html">IPacketLayoutMember</a>
+					<a href="IQRCodeData.html">IQRCodeData</a>
 				</li>
 			</ul>
-			<h1>Interface IPacketLayoutMember</h1>
+			<h1>Interface IQRCodeData</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Represents packet layout member</p>
+						<p>Represents QR code data</p>
 					</div>
 				</div>
 			</section>
@@ -76,7 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IPacketLayoutMember</span>
+						<span class="target">IQRCodeData</span>
 					</li>
 				</ul>
 			</section>
@@ -87,8 +87,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="IPacketLayoutMember.html#bitLength" class="tsd-kind-icon">bit<wbr>Length</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="IPacketLayoutMember.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="IQRCodeData.html#data" class="tsd-kind-icon">data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="IQRCodeData.html#size" class="tsd-kind-icon">size</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,22 +97,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="bitLength" class="tsd-anchor"></a>
-					<h3>bit<wbr>Length</h3>
-					<div class="tsd-signature tsd-kind-icon">bit<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="data" class="tsd-anchor"></a>
+					<h3>data</h3>
+					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8ClampedArray</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee54f63/src/packet.ts#L8">packet.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee54f63/src/qr-code.ts#L7">qr-code.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="id" class="tsd-anchor"></a>
-					<h3>id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="size" class="tsd-anchor"></a>
+					<h3>size</h3>
+					<div class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee54f63/src/packet.ts#L7">packet.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/maierfelix/banotils/blob/ee54f63/src/qr-code.ts#L8">qr-code.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -131,24 +131,24 @@
 					<li class=" tsd-kind-class">
 						<a href="../classes/PacketLayout.html" class="tsd-kind-icon">Packet<wbr>Layout</a>
 					</li>
+					<li class=" tsd-kind-interface">
+						<a href="IPacketLayoutMember.html" class="tsd-kind-icon">IPacket<wbr>Layout<wbr>Member</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="IPacketLayoutMember.html" class="tsd-kind-icon">IPacket<wbr>Layout<wbr>Member</a>
+						<a href="IQRCodeData.html" class="tsd-kind-icon">IQRCode<wbr>Data</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="IPacketLayoutMember.html#bitLength" class="tsd-kind-icon">bit<wbr>Length</a>
+								<a href="IQRCodeData.html#data" class="tsd-kind-icon">data</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="IPacketLayoutMember.html#id" class="tsd-kind-icon">id</a>
+								<a href="IQRCodeData.html#size" class="tsd-kind-icon">size</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface">
-						<a href="IQRCodeData.html" class="tsd-kind-icon">IQRCode<wbr>Data</a>
-					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../modules.html#IPacketLayout" class="tsd-kind-icon">IPacket<wbr>Layout</a>
 					</li>

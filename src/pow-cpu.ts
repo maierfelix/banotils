@@ -4,7 +4,7 @@ import {bytesToHex} from "./utils";
 
 /**
  * Calculates work for the provided hash
- * @param hash - The hash to generate work for
+ * @param hash - The hash to calculate work for
  */
 export function getWorkCPU(hash: Uint8Array): Promise<Uint8Array> {
   return new Promise(resolve => {

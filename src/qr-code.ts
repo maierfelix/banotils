@@ -3,7 +3,7 @@ import * as qrcode from "minimal-qr-code";
 /**
  * Represents QR code data
  */
-interface IQRCodeData {
+export interface IQRCodeData {
   data: Uint8ClampedArray;
   size: number;
 }
@@ -11,6 +11,7 @@ interface IQRCodeData {
 /**
  * Returns a QR code representation of the provided text
  * @param text - The text to generate the QR code for
+ * @param typeNumber - Optional type number
  */
 export function generateQRCodeData(text: string, typeNumber: number = 5): IQRCodeData {
   const qr = qrcode.makeQR(text, typeNumber, 0);

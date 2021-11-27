@@ -96,7 +96,7 @@ function logResponseError(error: string): void {
 }
 
 /**
- * Generates proof of work for the provided hash (Currently only supports running on the GPU)
+ * Generates proof of work for the provided hash
  * @param hash - The hash to generate work for
  */
 async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
