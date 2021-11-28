@@ -47,6 +47,7 @@ module.exports = {
     "@typescript-eslint/prefer-as-const": "warn",
     "@typescript-eslint/no-this-alias": "off",
     "@typescript-eslint/prefer-optional-chain": "off",
+    "@typescript-eslint/await-thenable": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
@@ -85,6 +86,12 @@ module.exports = {
         selector: "interface",
         format: ["PascalCase"],
         prefix: ["I"],
+      },
+      {
+        selector: "variable",
+        types: ["boolean"],
+        format: ["PascalCase"],
+        prefix: ["do", "is", "use", "should", "has", "got", "was", "can", "did", "will", "should", "must", "enable", "disable", "read", "write", "align"],
       },
     ],
     curly: "off",
