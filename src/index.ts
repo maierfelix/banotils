@@ -59,7 +59,7 @@ function request(data: any): Promise<any> {
   // Validate API URL
   if (!API_URL) throw new Error(`API URL is invalid`);
   // Perform request
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     try {
       fetch(API_URL, {
         method: "POST",
@@ -68,10 +68,15 @@ function request(data: any): Promise<any> {
         },
         body: JSON.stringify(data)
       }).then(response => {
-        const content = response.json();
-        resolve(content);
-      }).catch(error => {
-        reject(error);
+        try {
+          response.json().then(json => {
+            resolve(json);
+          });
+        } catch (e) {
+          resolve({error: "Request failed"});
+        }
+      }).catch(() => {
+        resolve({error: "Request failed"});
       });
     } catch (e) {
       resolve({error: "Request failed"});
@@ -85,15 +90,6 @@ function request(data: any): Promise<any> {
  */
 function isValidJSONResponse(json: any): boolean {
   return json ? !json.hasOwnProperty("error") : false;
-}
-
-/**
- * Logs the response error along with the callee of this function
- * @param error - The error message to log
- */
-function logResponseError(error: string): void {
-  // eslint-disable-next-line no-console
-  console.warn(`API call failed with: '${error}'`);
 }
 
 /**
@@ -189,10 +185,7 @@ export async function getWorkNODE(hash: Uint8Array): Promise<IWorkGenerateRespon
     action: "work_generate",
     hash: bytesToHex(hash),
   });
-  if (!isValidJSONResponse(json)) {
-    logResponseError(json.error);
-    return null;
-  }
+  if (!isValidJSONResponse(json)) return null;
   return parseWorkGenerateResponse(json);
 }
 
@@ -206,10 +199,7 @@ export async function getAccountInfo(publicKey: Uint8Array): Promise<IAccountInf
     action: "account_info",
     account: accountAddress,
   });
-  if (!isValidJSONResponse(json)) {
-    logResponseError(json.error);
-    return null;
-  }
+  if (!isValidJSONResponse(json)) return null;
   return parseAccountInfoResponse(json);
 }
 
@@ -223,10 +213,7 @@ export async function getAccountBalance(publicKey: Uint8Array): Promise<IAccount
     action: "accounts_balances",
     accounts: [accountAddress],
   });
-  if (!isValidJSONResponse(json)) {
-    logResponseError(json.error);
-    return null;
-  }
+  if (!isValidJSONResponse(json)) return null;
   return parseAccountBalanceResponse(json);
 }
 
@@ -240,10 +227,7 @@ export async function getAccountRepresentative(publicKey: Uint8Array): Promise<I
     action: "account_representative",
     account: accountAddress,
   });
-  if (!isValidJSONResponse(json)) {
-    logResponseError(json.error);
-    return null;
-  }
+  if (!isValidJSONResponse(json)) return null;
   return parseAccountRepresentativeResponse(json);
 }
 
@@ -265,10 +249,7 @@ export async function getAccountHistory(publicKey: Uint8Array, count: number = -
   if (head !== null) data.head = bytesToHex(head);
   if (reverse) data.reverse = true;
   const json = await request(data);
-  if (!isValidJSONResponse(json)) {
-    logResponseError(json.error);
-    return null;
-  }
+  if (!isValidJSONResponse(json)) return null;
   return parseAccountHistoryResponse(json);
 }
 
@@ -287,10 +268,7 @@ export async function getAccountPending(publicKey: Uint8Array, count: number = -
     threshold: threshold.toString(10),
     source: true,
   });
-  if (!isValidJSONResponse(json)) {
-    logResponseError(json.error);
-    return null;
-  }
+  if (!isValidJSONResponse(json)) return null;
   return parseAccountPendingResponse(json);
 }
 
@@ -311,10 +289,7 @@ export async function openAccount(privateKey: Uint8Array, representative: Uint8A
     "subtype": "open",
     "block": block,
   });
-  if (!isValidJSONResponse(json)) {
-    logResponseError(json.error);
-    return null;
-  }
+  if (!isValidJSONResponse(json)) return null;
   return parseBlockProcessResponse(json);
 }
 
@@ -346,10 +321,7 @@ export async function receiveAccount(privateKey: Uint8Array, representative: Uin
     "subtype": "receive",
     "block": block,
   });
-  if (!isValidJSONResponse(json)) {
-    logResponseError(json.error);
-    return null;
-  }
+  if (!isValidJSONResponse(json)) return null;
   return parseBlockProcessResponse(json);
 }
 
@@ -379,9 +351,6 @@ export async function sendAccount(srcPrivateKey: Uint8Array, dstPublicKey: Uint8
     "subtype": "send",
     "block": block,
   });
-  if (!isValidJSONResponse(json)) {
-    logResponseError(json.error);
-    return null;
-  }
+  if (!isValidJSONResponse(json)) return null;
   return parseBlockProcessResponse(json);
 }

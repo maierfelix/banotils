@@ -25,8 +25,9 @@ Browser installation:
  - QR code generation
  - Receiving and sending BAN
  - Several methods for querying data (Account balance, history etc.)
- - GPU-based Proof-of-Work generation
+ - Proof-of-Work generation (CPU, GPU or NODE based)
  - Steganography (Encoding data into transaction digits)
+ - AES PBKDF2 encryption/decryption
 
 ### Inspired by:
  - [bananojs](https://github.com/BananoCoin/bananojs)
