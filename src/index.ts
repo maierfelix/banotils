@@ -17,7 +17,6 @@ import {getWorkCPU} from "./pow-cpu";
 import {getWorkGPU} from "./pow-gpu";
 
 export * from "./mnemonic";
-export * from "./packet";
 export * from "./pow-cpu";
 export * from "./pow-gpu";
 export * from "./qr-code";

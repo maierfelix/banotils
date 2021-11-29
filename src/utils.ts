@@ -35,27 +35,27 @@ export function bytesToHex(bytes: Uint8Array): string {
 }
 
 /**
- * Converts the provided bits into their byte equivalent
+ * Converts the provided bits into a number
  * @param bits - The bits to convert
  * @param bitStride - An optional bit stride
  */
-export function bitsToByte(bits: Uint8Array, bitStride: number = 8): number {
-  let byte = 0;
+export function bitsToNumber(bits: Uint8Array, bitStride: number = 8): number {
+  let number = 0;
   for (let bb = bitStride - 1; bb >= 0; --bb) {
-    byte |= (bits[bb] << bb);
+    number |= (bits[bb] << bb);
   }
-  return byte;
+  return number;
 }
 
 /**
- * Converts the provided byte into it's bit equivalent
- * @param byte - The byte to convert
+ * Converts the provided number into it's bit equivalent
+ * @param number - The number to convert
  * @param bitStride - An optional bit stride
  */
-export function byteToBits(byte: number, bitStride: number = 8): Uint8Array {
+export function numberToBits(number: number, bitStride: number = 8): Uint8Array {
   const bits = new Uint8Array(bitStride);
   for (let bb = bitStride - 1; bb >= 0; --bb) {
-    bits[bitStride - 1 - bb] = byte & (1 << bb) ? 1 : 0;
+    bits[bitStride - 1 - bb] = number & (1 << bb) ? 1 : 0;
   }
   return bits;
 }
@@ -67,7 +67,7 @@ export function byteToBits(byte: number, bitStride: number = 8): Uint8Array {
 export function bytesToBits(bytes: Uint8Array): Uint8Array {
   const bits = new Uint8Array(bytes.length * 8);
   for (let ii = 0; ii < bytes.length; ++ii) {
-    const b = byteToBits(bytes[ii], 8);
+    const b = numberToBits(bytes[ii], 8);
     for (let bb = 0; bb < 8; ++bb) {
       bits[(ii * 8) + bb] = b[bb];
     }
@@ -83,7 +83,7 @@ export function bytesToBits(bytes: Uint8Array): Uint8Array {
 export function bitsToBitsN(bits: Uint8Array, bitStride: number): Uint8Array {
   const output = new Uint8Array(Math.ceil(bits.length / bitStride));
   for (let ii = 0; ii < output.length; ++ii) {
-    output[ii] = bitsToByte(bits.subarray((ii * bitStride) + 0, (ii * bitStride) + bitStride), bitStride);
+    output[ii] = bitsToNumber(bits.subarray((ii * bitStride) + 0, (ii * bitStride) + bitStride), bitStride);
   }
   return output;
 }
@@ -96,7 +96,7 @@ export function bitsToBitsN(bits: Uint8Array, bitStride: number): Uint8Array {
 export function bitsNToBits(bitsn: Uint8Array, bitStride: number): Uint8Array {
   const output = new Uint8Array(Math.floor(bitsn.length * bitStride));
   for (let ii = 0; ii < bitsn.length; ++ii) {
-    const bits = byteToBits(bitsn[ii], bitStride);
+    const bits = numberToBits(bitsn[ii], bitStride);
     for (let bb = 0; bb < bitStride; ++bb) {
       output[(ii * bitStride) + bb] = bits[bitStride - 1 - bb];
     }
@@ -285,6 +285,6 @@ export async function decryptHash(hash: Uint8Array, password: string, iv: Uint8A
       hash
     );
     return new Uint8Array(decrypted);
-  } catch(e) {}
+  } catch (e) { }
   return null;
 }

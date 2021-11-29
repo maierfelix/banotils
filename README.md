@@ -26,7 +26,6 @@ Browser installation:
  - Receiving and sending BAN
  - Several methods for querying data (Account balance, history etc.)
  - Proof-of-Work generation (CPU, GPU or NODE based)
- - Steganography (Encoding data into transaction digits)
  - AES PBKDF2 encryption/decryption
 
 ### Inspired by:
