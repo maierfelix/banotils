@@ -70,6 +70,8 @@ function request(data: any): Promise<any> {
         try {
           response.json().then(json => {
             resolve(json);
+          }).catch(() => {
+            resolve({error: "Request failed"});
           });
         } catch (e) {
           resolve({error: "Request failed"});
