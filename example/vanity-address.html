@@ -1,0 +1,84 @@
+<script type="text/javascript" src="https://unpkg.com/banotils/dist/index.iife.min.js"></script>
+
+Desired Address Prefix:
+<input id="address-search-prefix" type="text" size="8" value="ban_1">
+
+<br/>
+<br/>
+
+Search Limit:
+<input id="address-search-limit" type="text" size="8" value="1000">
+
+<br/>
+<br/>
+
+<button id="generate-address">Generate</button>
+
+<br/>
+<br/>
+<div id="generation-status"></div>
+
+<br/>
+<br/>
+
+Your Address:
+<input id="generated-address" type="text" size="66">
+
+<br/>
+<br/>
+
+Your Address Seed:
+<input id="generated-address-seed" type="text" size="66">
+
+<br/>
+<br/>
+
+Your Address Mnemonic:
+<input id="generated-address-mnemonic" type="text" size="128">
+
+<script>
+  function $(query) { return document.querySelector(query); }
+
+  function generateRandomWallet(seed) {
+    crypto.getRandomValues(seed);
+    const privateKey = banotils.getPrivateKey(seed);
+    const publicKey = banotils.getPublicKey(privateKey);
+    const address = banotils.getAccountAddress(publicKey);
+    return {address, seed, publicKey, privateKey};
+  };
+
+  function findAddressSeed(name, limit) {
+    let seed = new Uint8Array(32);
+    for (let ii = 0; ii < limit; ++ii) {
+      const wallet = generateRandomWallet(seed);
+      if (wallet.address.substr(0, name.length) === name) {
+        if (!banotils.isSeedValid(wallet.seed)) return null;
+        return wallet;
+      }
+    }
+    return null;
+  };
+
+  $(`#generate-address`).onclick = e => {
+    const prefix = $(`#address-search-prefix`).value;
+    const limit = parseInt($(`#address-search-limit`).value);
+    $(`#generation-status`).innerHTML = `Generating..`;
+    $(`#generated-address`).value = "";
+    $(`#generated-address-seed`).value = "";
+    $(`#generated-address-mnemonic`).value = "";
+    setTimeout(() => {
+      const wallet = findAddressSeed(prefix, limit);
+      if (wallet !== null) {
+        $(`#generation-status`).innerHTML = ``;
+        $(`#generated-address`).value = wallet.address;
+        $(`#generated-address-seed`).value = banotils.bytesToHex(wallet.seed);
+        banotils.entropyToMnemonic(wallet.seed).then(mnemonic => {
+          $(`#generated-address-mnemonic`).value = mnemonic + "";
+        });
+      } else {
+        $(`#generation-status`).innerHTML = `Failed to generate address`;
+      }
+    }, 250);
+  };
+
+</script>
