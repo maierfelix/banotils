@@ -53,38 +53,48 @@ Your Address Mnemonic:
     return {address, seed, publicKey, privateKey};
   };
 
-  function findAddressSeed(name, limit) {
+  function generateWallet(name, seed) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        const wallet = generateRandomWallet(seed);
+        if (wallet.address.substr(0, name.length) === name) {
+          if (!banotils.isSeedValid(wallet.seed)) resolve(null);
+          else resolve(wallet);
+        } else resolve(null);
+      });
+    });
+  }
+
+  async function findAddressSeed(name, limit) {
     let seed = new Uint8Array(32);
+    let wallet = null;
     for (let ii = 0; ii < limit; ++ii) {
-      const wallet = generateRandomWallet(seed);
-      if (wallet.address.substr(0, name.length) === name) {
-        if (!banotils.isSeedValid(wallet.seed)) return null;
-        return wallet;
-      }
+      wallet = await generateWallet(name, seed);
+      if (wallet !== null) return wallet;
     }
     return null;
   };
 
-  $(`#generate-address`).onclick = e => {
+  $(`#generate-address`).onclick = async e => {
     const prefix = $(`#address-search-prefix`).value;
     const limit = parseInt($(`#address-search-limit`).value);
+    $(`#generate-address`).disabled = true;
     $(`#generation-status`).innerHTML = `Generating..`;
     $(`#generated-address`).value = "";
     $(`#generated-address-seed`).value = "";
     $(`#generated-address-mnemonic`).value = "";
-    setTimeout(() => {
-      const wallet = findAddressSeed(prefix, limit);
-      if (wallet !== null) {
-        $(`#generation-status`).innerHTML = ``;
-        $(`#generated-address`).value = wallet.address;
-        $(`#generated-address-seed`).value = banotils.bytesToHex(wallet.seed);
-        banotils.entropyToMnemonic(wallet.seed).then(mnemonic => {
-          $(`#generated-address-mnemonic`).value = mnemonic + "";
-        });
-      } else {
-        $(`#generation-status`).innerHTML = `Failed to generate address`;
-      }
-    }, 250);
+    const wallet = await findAddressSeed(prefix, limit);
+    if (wallet !== null) {
+      $(`#generation-status`).innerHTML = ``;
+      $(`#generated-address`).value = wallet.address;
+      $(`#generated-address-seed`).value = banotils.bytesToHex(wallet.seed);
+      banotils.entropyToMnemonic(wallet.seed).then(mnemonic => {
+        $(`#generated-address-mnemonic`).value = mnemonic + "";
+      });
+    } else {
+      $(`#generation-status`).innerHTML = `Failed to generate address`;
+    }
+    $(`#generate-address`).disabled = false;
   };
 
 </script>
