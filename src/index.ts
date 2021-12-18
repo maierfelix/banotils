@@ -30,6 +30,8 @@ const MIN_WEBGL_TEXTURE_SIZE = 2048;
 
 let IS_SERVER_WORK_SUPPORTED = false;
 
+let OVERRIDE_POW_FUNC: Function = null;
+
 /**
  * Indicates if WebGL2 is supported
  */
@@ -99,15 +101,29 @@ function isValidJSONResponse(json: any): boolean {
  */
 async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
   let work: Uint8Array = null;
-  // Use GPU work generation if available
-  if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, 3);
-  // In case webgl2 isn't supported, check if the node supports work generation
-  else if (IS_SERVER_WORK_SUPPORTED) work = (await getWorkNODE(hash)).work;
-  // Otherwise use the (super slow) CPU work fallback
-  else work = await getWorkCPU(hash);
+  
+  if (OVERRIDE_POW_FUNC) {
+    work = await OVERRIDE_POW_FUNC(hash)
+  } else {
+    // Use GPU work generation if available
+    if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, 3);
+    // In case webgl2 isn't supported, check if the node supports work generation
+    else if (IS_SERVER_WORK_SUPPORTED) work = (await getWorkNODE(hash)).work;
+    // Otherwise use the (super slow) CPU work fallback
+    else work = await getWorkCPU(hash);
+  }
+
   // Validate the generated work
   if (!isWorkValid(hash, work, 0xFFFFFE00n)) throw new Error(`Generated work '${bytesToHex(work)}' is invalid`);
   return work;
+}
+
+/**
+ * Overrides the generateProofOfWork function with your own
+ * @param overrideFunction - The function to replace generateProofOfWork with
+ */
+function overrideGenerateProofOfWork(overrideFunction: Function): void {
+  OVERRIDE_POW_FUNC = overrideFunction;
 }
 
 /**
