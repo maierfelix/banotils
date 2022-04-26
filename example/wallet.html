@@ -160,8 +160,10 @@ async function onProcessPending() {
   const publicKey = banotils.getPublicKey(privateKey);
   // Process pending transactions
   const pending = await banotils.getAccountPending(publicKey);
-  for (const block of pending.blocks) {
-    await banotils.receiveAccount(privateKey, banotils.getPublicKey(REPRESENTATIVE), block.hash, block.amount);
+  if (pending !== null) {
+    for (const block of pending.blocks) {
+      await banotils.receiveAccount(privateKey, banotils.getPublicKey(REPRESENTATIVE), block.hash, block.amount);
+    }
   }
 }
 
@@ -225,7 +227,7 @@ async function onWithdrawWallet() {
   (async function refreshWalletLoop() {
     await onProcessPending();
     await onRefreshWallet();
-    setTimeout(refreshWalletLoop, 1e3);
+    setTimeout(refreshWalletLoop, 5e3);
   })();
 
   // Load banotils code

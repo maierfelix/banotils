@@ -5,6 +5,17 @@ import {deriveAddressFromPublicKey, derivePublicKeyFromAddress, derivePublicKeyF
 const SEED_ALPHABET_REGEX = new RegExp(`^[0123456789abcdefABCDEF]{64}$`);
 
 /**
+ * Decodes the provided base64 encoded wasm stub
+ * @param stub - The base64 wasm stub
+ */
+export function decodeWasmModule(stub: string): Uint8Array {
+  const str = atob(stub);
+  const buffer = new Uint8Array(str.length);
+  for (let ii = 0; ii < str.length; ++ii) buffer[ii] = str.charCodeAt(ii);
+  return buffer;
+}
+
+/**
  * Clamps the provided number between the given min/max range
  * @param num - The number to clamp
  * @param min - The minimum clamp bound
