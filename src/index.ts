@@ -22,13 +22,26 @@ export * from "./pow-gpu";
 export * from "./qr-code";
 export * from "./utils";
 
-let API_URL = ``;
-
 const IS_WEBGL2_SUPPORTED = isWebGL2Supported();
+const IS_WEBASSEMBLY_SUPPORTED = isWebAssemblySupported();
 
 const MIN_WEBGL_TEXTURE_SIZE = 2048;
 
 let IS_SERVER_WORK_SUPPORTED = false;
+
+/**
+ * The supported PoW generation modes
+ */
+export enum PROOF_OF_WORK_MODE {
+  AUTO,
+  GPU,
+  CPU,
+  NODE,
+}
+
+// Global state
+let nodeAPIUrl = ``;
+let proofOfWorkMode = PROOF_OF_WORK_MODE.AUTO;
 
 /**
  * Indicates if WebGL2 is supported
@@ -51,16 +64,28 @@ function isWebGL2Supported(): boolean {
 }
 
 /**
+ * Indicates if WebAssembly is supported
+ */
+function isWebAssemblySupported(): boolean {
+  try {
+    if (typeof WebAssembly !== "undefined") {
+      return true;
+    }
+  } catch (e) { }
+  return false;
+}
+
+/**
  * Submits a POST request to a node
  * @param data - The form data to send
  */
 function request(data: any): Promise<any> {
   // Validate API URL
-  if (!API_URL) throw new Error(`API URL is invalid`);
+  if (!nodeAPIUrl) throw new Error(`API URL is invalid`);
   // Perform request
   return new Promise((resolve) => {
     try {
-      fetch(API_URL, {
+      fetch(nodeAPIUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -99,12 +124,29 @@ function isValidJSONResponse(json: any): boolean {
  */
 async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
   let work: Uint8Array = null;
-  // Use GPU work generation if available
-  if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, 3);
-  // In case webgl2 isn't supported, check if the node supports work generation
-  else if (IS_SERVER_WORK_SUPPORTED) work = (await getWorkNODE(hash)).work;
-  // Otherwise use the (super slow) CPU work fallback
-  else work = await getWorkCPU(hash);
+  // Auto work mode
+  if (proofOfWorkMode === PROOF_OF_WORK_MODE.AUTO) {
+    // Use GPU work generation if available
+    if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash);
+    // Use NODE work generation if available
+    else if (IS_SERVER_WORK_SUPPORTED) work = (await getWorkNODE(hash)).work;
+    // Use CPU work generation if available
+    else if (IS_WEBASSEMBLY_SUPPORTED) work = await getWorkCPU(hash);
+  }
+  // GPU work mode
+  else if (proofOfWorkMode === PROOF_OF_WORK_MODE.GPU) {
+    if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash);
+  }
+  // CPU work mode
+  else if (proofOfWorkMode === PROOF_OF_WORK_MODE.CPU) {
+    if (IS_WEBASSEMBLY_SUPPORTED) work = await getWorkCPU(hash);
+  }
+  // NODE work mode
+  else if (proofOfWorkMode === PROOF_OF_WORK_MODE.NODE) {
+    if (IS_SERVER_WORK_SUPPORTED) work = (await getWorkNODE(hash)).work;
+  }
+  // Throw if work generation failed
+  if (work === null) throw new Error(`Work generation failed`);
   // Validate the generated work
   if (!isWorkValid(hash, work, 0xFFFFFE00n)) throw new Error(`Generated work '${bytesToHex(work)}' is invalid`);
   return work;
@@ -164,7 +206,7 @@ async function generateProcessBlock(privateKey: Uint8Array, previousHash: (Uint8
 export async function setAPIURL(url: string): Promise<void> {
   // Validate API URL
   if (url.startsWith("https") || url.startsWith("http")) {
-    API_URL = url;
+    nodeAPIUrl = url;
   } else {
     throw new Error(`Invalid API URL`);
   }
@@ -176,6 +218,24 @@ export async function setAPIURL(url: string): Promise<void> {
     IS_SERVER_WORK_SUPPORTED = true;
   }
 }
+
+/**
+ * Returns the API URL of the used node
+ */
+export function getAPIURL(): string {return nodeAPIUrl;}
+
+/**
+ * Sets the provided proof of work mode
+ * @param mode - The proof of work mode to use
+ */
+export function setProofOfWorkMode(mode: PROOF_OF_WORK_MODE): void {
+  proofOfWorkMode = mode;
+}
+
+/**
+ * Returns the used proof of work mode
+ */
+export function getProofOfWorkMode(): PROOF_OF_WORK_MODE {return proofOfWorkMode;}
 
 /**
  * Calculates work on the NODE for the provided hash

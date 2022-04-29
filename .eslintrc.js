@@ -30,6 +30,7 @@ module.exports = {
     "semi": [2, "always"],
     "@typescript-eslint/no-explicit-any": "off",
     //"@typescript-eslint/no-extra-semi": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
     "@typescript-eslint/no-inferrable-types": "off",
     "no-else-return": "warn",
     "@typescript-eslint/ban-ts-comment": "off",
