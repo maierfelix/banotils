@@ -11,6 +11,8 @@ uniform uvec4 uWork1;
 uniform uvec4 uHash0;
 uniform uvec4 uHash1;
 
+uniform uint uDifficulty;
+
 #define BLAKE2B_IV32_1 0x6A09E667u
 
 uint v[32] = uint[32](
@@ -115,7 +117,7 @@ void main() {
     B2B_G(6, 8, 18, 28, SIGMA82[i * 16 + 14], SIGMA82[i * 16 + 15]);
   }
 
-  if ((BLAKE2B_IV32_1 ^ v[1] ^ v[17]) > 0xFFFFFE00u) {
+  if ((BLAKE2B_IV32_1 ^ v[1] ^ v[17]) > uDifficulty) {
     fragColor = vec4(
       float(x_index + 1u)/255.,
       float(y_index + 1u)/255.,

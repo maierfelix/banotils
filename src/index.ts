@@ -15,6 +15,7 @@ import {IBlockProcessResponse, parseBlockProcessResponse} from "./rpc/block-proc
 import {IWorkGenerateResponse, parseWorkGenerateResponse} from "./rpc/work-generate";
 import {getWorkCPU} from "./pow-cpu";
 import {getWorkGPU} from "./pow-gpu";
+import {WORK_DIFFICULTY} from "./config";
 
 export * from "./mnemonic";
 export * from "./pow-cpu";
@@ -42,6 +43,7 @@ export enum PROOF_OF_WORK_MODE {
 // Global state
 let nodeAPIUrl = ``;
 let proofOfWorkMode = PROOF_OF_WORK_MODE.AUTO;
+let proofOfWorkDifficulty = WORK_DIFFICULTY;
 
 /**
  * Indicates if WebGL2 is supported
@@ -127,19 +129,19 @@ async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
   // Auto work mode
   if (proofOfWorkMode === PROOF_OF_WORK_MODE.AUTO) {
     // Use GPU work generation if available
-    if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash);
+    if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, proofOfWorkDifficulty);
     // Use NODE work generation if available
     else if (IS_SERVER_WORK_SUPPORTED) work = (await getWorkNODE(hash)).work;
     // Use CPU work generation if available
-    else if (IS_WEBASSEMBLY_SUPPORTED) work = await getWorkCPU(hash);
+    else if (IS_WEBASSEMBLY_SUPPORTED) work = await getWorkCPU(hash, proofOfWorkDifficulty);
   }
   // GPU work mode
   else if (proofOfWorkMode === PROOF_OF_WORK_MODE.GPU) {
-    if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash);
+    if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, proofOfWorkDifficulty);
   }
   // CPU work mode
   else if (proofOfWorkMode === PROOF_OF_WORK_MODE.CPU) {
-    if (IS_WEBASSEMBLY_SUPPORTED) work = await getWorkCPU(hash);
+    if (IS_WEBASSEMBLY_SUPPORTED) work = await getWorkCPU(hash, proofOfWorkDifficulty);
   }
   // NODE work mode
   else if (proofOfWorkMode === PROOF_OF_WORK_MODE.NODE) {
@@ -148,7 +150,7 @@ async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
   // Throw if work generation failed
   if (work === null) throw new Error(`Work generation failed`);
   // Validate the generated work
-  if (!isWorkValid(hash, work, 0xFFFFFE00n)) throw new Error(`Generated work '${bytesToHex(work)}' is invalid`);
+  if (!isWorkValid(hash, work, BigInt(WORK_DIFFICULTY))) throw new Error(`Generated work '${bytesToHex(work)}' is invalid`);
   return work;
 }
 
@@ -214,7 +216,7 @@ export async function setAPIURL(url: string): Promise<void> {
   const hash = hexToBytes(`8711A7FCA0F2CDBBA739FBB7948C9AEFCA509931A50EC0922FF0DC3737708E93`);
   // Test it the API node supports work generation
   const result = await getWorkNODE(hash);
-  if (result !== null && result.work instanceof Uint8Array && isWorkValid(hash, result.work, 0xFFFFFE00n)) {
+  if (result !== null && result.work instanceof Uint8Array && isWorkValid(hash, result.work, BigInt(WORK_DIFFICULTY))) {
     IS_SERVER_WORK_SUPPORTED = true;
   }
 }
@@ -236,6 +238,19 @@ export function setProofOfWorkMode(mode: PROOF_OF_WORK_MODE): void {
  * Returns the used proof of work mode
  */
 export function getProofOfWorkMode(): PROOF_OF_WORK_MODE {return proofOfWorkMode;}
+
+/**
+ * Sets the provided proof of work difficulty
+ * @param difficulty - The proof of work difficulty to use
+ */
+export function setProofOfWorkDifficulty(difficulty: number): void {
+  proofOfWorkDifficulty = difficulty;
+}
+
+/**
+ * Returns the used proof of work difficulty
+ */
+export function getProofOfWorkDifficulty(): number {return proofOfWorkDifficulty;}
 
 /**
  * Calculates work on the NODE for the provided hash

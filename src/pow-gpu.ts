@@ -32,9 +32,10 @@ let fragmentShader: WebGLShader = null;
 /**
  * Calculates work on the GPU for the provided hash
  * @param hash - The hash to calculate work for
+ * @param difficulty - The difficulty of the work to calculate
  * @param dimension - Optional canvas dimension
  */
-export function getWorkGPU(hash: Uint8Array, dimension: number = 3): Promise<Uint8Array> {
+export function getWorkGPU(hash: Uint8Array, difficulty: number, dimension: number = 3): Promise<Uint8Array> {
   // Setup GL resources if necessary
   if (canvas === null) {
     // Create surface
@@ -61,6 +62,9 @@ export function getWorkGPU(hash: Uint8Array, dimension: number = 3): Promise<Uin
   gl.useProgram(program);
   gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
   gl.clearColor(0, 0, 0, 1);
+
+  // Upload work min difficulty
+  gl.uniform1ui(gl.getUniformLocation(program, "uDifficulty"), difficulty);
 
   // Upload hash into uniforms
   gl.uniform4uiv(gl.getUniformLocation(program, "uHash0"), new Uint32Array([
