@@ -238,6 +238,7 @@ async function onWithdrawWallet() {
       //await banotils.setAPIURL(`https://calm-waters-22733.herokuapp.com/https://vault.banano.cc/api/node-api`);
       // Use Kalium API by default
       await banotils.setAPIURL(`https://kaliumapi.appditto.com/api`);
+      //banotils.setProofOfWorkMode(banotils.PROOF_OF_WORK_MODE.CPU);
       // Generate a random wallet automatically
       $(`#generate-wallet`).click();
     };
