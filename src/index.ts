@@ -123,11 +123,12 @@ function isValidJSONResponse(json: any): boolean {
 /**
  * Generates proof of work for the provided hash
  * @param hash - The hash to generate work for
+ * @param mode - Optional proof of work mode to use
  */
-async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
+export async function generateProofOfWork(hash: Uint8Array, mode: PROOF_OF_WORK_MODE): Promise<Uint8Array> {
   let work: Uint8Array = null;
   // Auto work mode
-  if (proofOfWorkMode === PROOF_OF_WORK_MODE.AUTO) {
+  if (mode === PROOF_OF_WORK_MODE.AUTO) {
     // Use GPU work generation if available
     if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, proofOfWorkDifficulty);
     // Use NODE work generation if available
@@ -136,16 +137,19 @@ async function generateProofOfWork(hash: Uint8Array): Promise<Uint8Array> {
     else if (IS_WEBASSEMBLY_SUPPORTED) work = await getWorkCPU(hash, proofOfWorkDifficulty);
   }
   // GPU work mode
-  else if (proofOfWorkMode === PROOF_OF_WORK_MODE.GPU) {
+  else if (mode === PROOF_OF_WORK_MODE.GPU) {
     if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, proofOfWorkDifficulty);
   }
   // CPU work mode
-  else if (proofOfWorkMode === PROOF_OF_WORK_MODE.CPU) {
+  else if (mode === PROOF_OF_WORK_MODE.CPU) {
     if (IS_WEBASSEMBLY_SUPPORTED) work = await getWorkCPU(hash, proofOfWorkDifficulty);
   }
   // NODE work mode
-  else if (proofOfWorkMode === PROOF_OF_WORK_MODE.NODE) {
+  else if (mode === PROOF_OF_WORK_MODE.NODE) {
     if (IS_SERVER_WORK_SUPPORTED) work = (await getWorkNODE(hash)).work;
+  }
+  else {
+    throw new Error(`Invalid work generation mode '${mode}'`);
   }
   // Throw if work generation failed
   if (work === null) throw new Error(`Work generation failed`);
@@ -186,7 +190,7 @@ async function generateProcessBlock(privateKey: Uint8Array, previousHash: (Uint8
   const publicKey = getPublicKey(privateKey);
 
   // Generate proof-of-work for the block
-  const work = await generateProofOfWork(previousHash || publicKey);
+  const work = await generateProofOfWork(previousHash || publicKey, proofOfWorkMode);
 
   // Build the block
   const block: any = {};
