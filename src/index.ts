@@ -253,6 +253,16 @@ export function setProofOfWorkDifficulty(difficulty: number): void {
 export function getProofOfWorkDifficulty(): number {return proofOfWorkDifficulty;}
 
 /**
+ * Manually send a RPC request
+ * @param data - The request data to send
+ */
+export async function fetchRPC(data: any): Promise<any> {
+  const json = await request(data);
+  if (!isValidJSONResponse(json)) return null;
+  return json;
+}
+
+/**
  * Calculates work on the NODE for the provided hash
  * @param hash - The hash to calculate work for
  */

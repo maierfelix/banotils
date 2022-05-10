@@ -1,6 +1,6 @@
 # banotils
 
-This repository contains several utils to work with the cryptocurrency [Banano](https://banano.cc/) inside the browser.
+This repository contains several utils to work with the cryptocurrency [Banano](https://banano.cc/) inside the Browser and Node.
 
 ### Demo:
  - [Browser Wallet](https://maierfelix.github.io/banotils/example/wallet.html)
