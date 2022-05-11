@@ -29,6 +29,57 @@ Browser installation:
  - Proof-of-Work generation (CPU, GPU or NODE based)
  - AES PBKDF2 encryption/decryption
 
+### Browser Example:
+````html
+<script src="https://unpkg.com/banotils/dist/index.iife.min.js"></script>
+
+<script>
+(async() => {
+
+  // Set API endpoint
+  await banotils.setAPIURL(`https://kaliumapi.appditto.com/api`);
+
+  // Generate random wallet
+  const walletSeed = crypto.getRandomValues(new Uint8Array(32));
+  const walletPrivateKey = banotils.getPrivateKey(walletSeed);
+  const walletPublicKey = banotils.getPublicKey(walletPrivateKey);
+  const walletAddress = banotils.getAccountAddress(walletPublicKey);
+
+  // Print wallet information
+  console.log("Seed:", banotils.bytesToHex(walletSeed));
+  console.log("Address:", walletAddress);
+  console.log("Private key:", banotils.bytesToHex(walletPrivateKey));
+  console.log("Public key:", banotils.bytesToHex(walletPublicKey));
+
+})();
+</script>
+````
+
+### Node Example:
+````js
+const ban = require("banotils");
+const crypto = require("crypto").webcrypto;
+
+(async () => {
+
+  // Set API endpoint
+  await banotils.setAPIURL(`https://kaliumapi.appditto.com/api`);
+
+  // Generate random wallet
+  const walletSeed = crypto.getRandomValues(new Uint8Array(32));
+  const walletPrivateKey = banotils.getPrivateKey(walletSeed);
+  const walletPublicKey = banotils.getPublicKey(walletPrivateKey);
+  const walletAddress = banotils.getAccountAddress(walletPublicKey);
+
+  // Print wallet information
+  console.log("Seed:", banotils.bytesToHex(walletSeed));
+  console.log("Address:", walletAddress);
+  console.log("Private key:", banotils.bytesToHex(walletPrivateKey));
+  console.log("Public key:", banotils.bytesToHex(walletPublicKey));
+
+})();
+````
+
 ### Inspired by:
  - [bananojs](https://github.com/BananoCoin/bananojs)
  - [bananovault](https://github.com/BananoCoin/bananovault)
