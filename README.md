@@ -60,7 +60,7 @@ Browser installation:
 const banotils = require("banotils");
 const crypto = require("crypto").webcrypto;
 
-(async () => {
+(async() => {
 
   // Set API endpoint
   await banotils.setAPIURL(`https://kaliumapi.appditto.com/api`);
