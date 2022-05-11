@@ -33,6 +33,3 @@ Browser installation:
  - [bananojs](https://github.com/BananoCoin/bananojs)
  - [bananovault](https://github.com/BananoCoin/bananovault)
  - [bip39](https://github.com/bitcoinjs/bip39)
-
-### Donations:
-``ban_3ximawmxxkrdkw38r9eprudmekw95hy3xubohs1j3j6nphid6too16uz3sgb``

@@ -127,17 +127,17 @@ function isValidJSONResponse(json: any): boolean {
  */
 export async function generateProofOfWork(hash: Uint8Array, mode: PROOF_OF_WORK_MODE): Promise<Uint8Array> {
   let work: Uint8Array = null;
-  // Auto work mode
+  // Pick work mode automatically
   if (mode === PROOF_OF_WORK_MODE.AUTO) {
     // Use GPU work generation if available
-    if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, proofOfWorkDifficulty);
-    // Use NODE work generation if available
-    else if (IS_SERVER_WORK_SUPPORTED) work = (await getWorkNODE(hash)).work;
+    if (IS_WEBGL2_SUPPORTED) mode = PROOF_OF_WORK_MODE.GPU;
     // Use CPU work generation if available
-    else if (IS_WEBASSEMBLY_SUPPORTED) work = await getWorkCPU(hash, proofOfWorkDifficulty);
+    else if (IS_WEBASSEMBLY_SUPPORTED) mode = PROOF_OF_WORK_MODE.CPU;
+    // Use NODE work generation if available
+    else if (IS_SERVER_WORK_SUPPORTED) mode = PROOF_OF_WORK_MODE.NODE;
   }
   // GPU work mode
-  else if (mode === PROOF_OF_WORK_MODE.GPU) {
+  if (mode === PROOF_OF_WORK_MODE.GPU) {
     if (IS_WEBGL2_SUPPORTED) work = await getWorkGPU(hash, proofOfWorkDifficulty);
   }
   // CPU work mode
