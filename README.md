@@ -57,7 +57,7 @@ Browser installation:
 
 ### Node Example:
 ````js
-const ban = require("banotils");
+const banotils = require("banotils");
 const crypto = require("crypto").webcrypto;
 
 (async () => {
